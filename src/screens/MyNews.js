@@ -17,12 +17,14 @@ const DATA = [
   },
 ];
 
-export default function MyNews() {
+export default function MyNews({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={DATA}
-        renderItem={({item}) => <CardMyNews data={item} />}
+        renderItem={({item}) => (
+          <CardMyNews data={item} navigation={navigation} />
+        )}
       />
     </SafeAreaView>
   );

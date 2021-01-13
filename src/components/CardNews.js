@@ -22,7 +22,10 @@ export default function CardNews({data}) {
         </CardItem>
         <CardItem style={styles.headerCard}>
           <Left>
-            <Text style={styles.textJudul} numberOfLines={3}>
+            <Text
+              style={styles.textJudul}
+              numberOfLines={3}
+              ellipsizeMode="tail">
               Gubernur Banten Pakai Pfizer, Sleman Suntik dr Tirta Esok
             </Text>
           </Left>
@@ -80,5 +83,4 @@ const styles = StyleSheet.create({
   headerCard: {
     paddingLeft: 10,
   },
-  
 });

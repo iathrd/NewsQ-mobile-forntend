@@ -10,6 +10,7 @@ const Stack = createStackNavigator();
 import Home from './Home';
 import MyNews from './MyNews';
 import MyProfile from './MyProfile';
+import EditNews from './EditNews';
 
 export const HomeStack = () => {
   return (
@@ -58,6 +59,20 @@ export const MyNewsStack = () => {
         })}
         name="MyNews"
         component={MyNews}
+      />
+      <Stack.Screen
+        options={({navigation}) => ({
+          title: 'Edit News',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.openDrawer()}
+              style={styles.btnDrawer}>
+              <Icon name="menu" color="black" size={27} />
+            </TouchableOpacity>
+          ),
+        })}
+        name="EditNews"
+        component={EditNews}
       />
     </Stack.Navigator>
   );
