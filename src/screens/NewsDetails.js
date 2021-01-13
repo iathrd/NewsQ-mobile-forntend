@@ -1,20 +1,24 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {Item} from 'native-base';
+import moment from 'moment';
+import {API_URL} from '@env';
 
-export default function NewsDetails() {
+export default function NewsDetails({route}) {
+  const {data} = route.params;
   return (
     <ScrollView style={styles.scView}>
+      {console.log('HAHAHA', route)}
       <View style={styles.container}>
         <View>
           <View style={styles.titleWrapper}>
-            <Text style={styles.titleText}>
-              Jasa Raharja Beri Santunan ke 4 Keluarga Korban Sriwijaya Air
-            </Text>
+            <Text style={styles.titleText}>{data.title}</Text>
           </View>
           <View style={styles.newsInfoWrapper}>
             <Text style={styles.newsInfo}>
-              CNN Indonesia | Rabu, 13/01/2021 18:07 WIB
+              {`CNN Indonesia | ${moment(data.createdAt).format(
+                'dddd',
+              )}, ${moment(data.createdAt).format('DD/MM/YYYY h:mm a')}`}
             </Text>
           </View>
         </View>
@@ -23,39 +27,16 @@ export default function NewsDetails() {
             <View style={styles.thubNail}>
               <Image
                 style={styles.image}
-                source={require('../../assets/default-avatar.png')}
+                source={{uri: `${API_URL}${data.image}`}}
               />
             </View>
           </Item>
         </View>
         <View style={styles.imageDesWrapper}>
-          <Text style={styles.imageDes}>
-            PT Jasa Raharja (Persero) telah mencairkan santunan kepada empat
-            keluarga korban kecelakaan Sriwijaya Air SJ 182 senilai total Rp200
-            juta. Ilustrasi. (CNN Indonesia/ Thohirin)
-          </Text>
+          <Text style={styles.imageDes}>{data.imageDescription}</Text>
         </View>
         <View>
-          <Text style={styles.content}>
-            Jakarta, CNN Indonesia -- PT Jasa Raharja (Persero) mencairkan
-            santunan kepada empat keluarga korban penumpang Sriwijaya Air SJ 182
-            yang telah teridentifikasi. "Jadi sudah kami serahkan empat, dan
-            semuanya dapat kami selesaikan kurang dari 24 jam sejak
-            diidentifikasi," ujar Direktur Operasional Jasa Raharja Amos
-            Sampetoding di Jakarta International Container Terminal, Tanjung
-            Priok, Jakarta, seperti dikutip dari Antara, Rabu (13/1). Menurut
-            Amos, satu orang teridentifikasi oleh tim DVI Polri, pada Senin
-            lalu. Selang sehari, tim berhasil mengidentifikasi tiga orang.
-            Jakarta, CNN Indonesia -- PT Jasa Raharja (Persero) mencairkan
-            santunan kepada empat keluarga korban penumpang Sriwijaya Air SJ 182
-            yang telah teridentifikasi. "Jadi sudah kami serahkan empat, dan
-            semuanya dapat kami selesaikan kurang dari 24 jam sejak
-            diidentifikasi," ujar Direktur Operasional Jasa Raharja Amos
-            Sampetoding di Jakarta International Container Terminal, Tanjung
-            Priok, Jakarta, seperti dikutip dari Antara, Rabu (13/1). Menurut
-            Amos, satu orang teridentifikasi oleh tim DVI Polri, pada Senin
-            lalu. Selang sehari, tim berhasil mengidentifikasi tiga orang.
-          </Text>
+          <Text style={styles.content}>{data.content}</Text>
         </View>
       </View>
     </ScrollView>
@@ -103,7 +84,8 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   content: {
-    fontSize: 15,
+    fontSize: 16,
+    marginBottom: 40,
   },
   scView: {
     flex: 1,

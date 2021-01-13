@@ -1,60 +1,65 @@
 import React from 'react';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Card, CardItem, Thumbnail, Text, Left, Body, Right} from 'native-base';
+import {API_URL} from '@env';
+import moment from 'moment';
 
 export default function CardNews({data, navigation}) {
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('NewsDetails')}
-      style={styles.container}>
+    <View>
       <Card>
-        <CardItem>
-          <Left>
-            <Thumbnail
-              small
-              source={require('../../assets/default-avatar.png')}
-            />
-            <Body>
-              <Text>Iqbal Athorid</Text>
-            </Body>
-          </Left>
-          {/* <Right>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          underlayColor="#DDDDDD"
+          onPress={() => navigation.navigate('NewsDetails', {data})}
+          style={styles.container}>
+          <CardItem>
+            <Left>
+              <Thumbnail
+                small
+                source={require('../../assets/default-avatar.png')}
+              />
+              <Body>
+                <Text>{data.creator.username}</Text>
+              </Body>
+            </Left>
+            {/* <Right>
             <Text style={styles.creator}>Iqbal Athorid</Text>
           </Right> */}
-        </CardItem>
-        <CardItem style={styles.headerCard}>
-          <Left>
-            <Text
-              style={styles.textJudul}
-              numberOfLines={3}
-              ellipsizeMode="tail">
-              Gubernur Banten Pakai Pfizer, Sleman Suntik dr Tirta Esok
-            </Text>
-          </Left>
-          <View style={styles.timeWrapper}>
-            <Text style={styles.time}>08.00pm</Text>
-            <Text style={styles.time}>12-10-2020</Text>
-          </View>
-        </CardItem>
+          </CardItem>
+          <CardItem style={styles.headerCard}>
+            <Left>
+              <Text
+                style={styles.textJudul}
+                numberOfLines={3}
+                ellipsizeMode="tail">
+                {data.title}
+              </Text>
+            </Left>
+            <View style={styles.timeWrapper}>
+              <Text style={styles.time}>{moment().format('DD/MM/YYYY')}</Text>
+              <Text style={styles.time}>
+                {moment(data.createdAt).format('h:mm a')}
+              </Text>
+            </View>
+          </CardItem>
 
-        <CardItem cardBody>
-          <Image
-            source={require('../../assets/default-avatar.png')}
-            style={styles.thubNail}
-          />
-        </CardItem>
-        <CardItem style={styles.content}>
-          <View>
-            <Text numberOfLines={3} style={styles.textContent}>
-              asdknasdnaksdabsdkbasldblasbdabsdk as jhs a sfk askjf as fla s
-              asld alf lk asdasldakskldkla klsdk lnaskdn klasndklan skldnak
-              ndlaksnlkansklnask lnkl nk ndaklsnd klanklansdk nakaklsdn klas
-              nkand jasbdbas kbdakjs bdka
-            </Text>
-          </View>
-        </CardItem>
+          <CardItem cardBody>
+            <Image
+              source={{uri: `${API_URL}${data.image}`}}
+              style={styles.thubNail}
+            />
+          </CardItem>
+          <CardItem style={styles.content}>
+            <View>
+              <Text numberOfLines={3} style={styles.textContent}>
+                {data.imageDescription}
+              </Text>
+            </View>
+          </CardItem>
+        </TouchableOpacity>
       </Card>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -83,6 +88,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerCard: {
+    paddingLeft: 0,
+  },
+  textJudul: {
+    fontWeight: 'bold',
+  },
+  timeWrapper: {
     paddingLeft: 10,
   },
 });

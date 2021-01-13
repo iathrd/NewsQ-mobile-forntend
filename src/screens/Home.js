@@ -1,30 +1,39 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import CardNews from '../components/CardNews';
+import ModalLoading from '../components/ModalLoading';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
+//redux
+import {useSelector, useDispatch} from 'react-redux';
+import newsAction from '../redux/actions/news';
 
 export default function Home({navigation}) {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const news = useSelector((state) => state.news);
+
+  useEffect(() => {
+    dispatch(newsAction.getNews(token));
+  }, []);
+
+  const loadData = () => {
+    const {nextLink} = news.pageInfo;
+    if (nextLink) {
+      dispatch(newsAction.loadNews(token, nextLink));
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      {news.isLoading && <ModalLoading modal={true} />}
       <FlatList
-        data={DATA}
+        data={news.news.length && news.news}
         renderItem={({item}) => (
           <CardNews data={item} navigation={navigation} />
         )}
+        onEndReached={loadData}
+        onEndReachedThreshold={0.5}
+        // keyExtractor={(item) => item.id.toSting()}
       />
     </SafeAreaView>
   );
