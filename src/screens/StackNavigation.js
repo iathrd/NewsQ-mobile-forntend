@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, Button, StyleSheet, TouchableOpacity} from 'react-native';
-import {Text} from 'native-base';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {createStackNavigator} from '@react-navigation/stack';
@@ -37,7 +36,7 @@ export const MyNewsStack = () => {
     <Stack.Navigator>
       <Stack.Screen
         options={({navigation}) => ({
-          title: 'MyNews',
+          title: 'My News',
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => navigation.openDrawer()}

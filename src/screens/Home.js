@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, SafeAreaView, FlatList, StyleSheet} from 'react-native';
+import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import CardNews from '../components/CardNews';
 
 const DATA = [

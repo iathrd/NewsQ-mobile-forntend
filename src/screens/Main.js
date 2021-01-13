@@ -1,5 +1,4 @@
 import React from 'react';
-import {View, Text} from 'react-native';
 
 //reactNavigation
 import {NavigationContainer} from '@react-navigation/native';
@@ -15,7 +14,7 @@ export default function Main() {
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeStack} />
-        <Drawer.Screen name="MyNews" component={MyNewsStack} />
+        <Drawer.Screen name="My News" component={MyNewsStack} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

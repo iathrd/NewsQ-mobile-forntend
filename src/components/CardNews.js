@@ -1,20 +1,10 @@
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
-import {
-  Card,
-  CardItem,
-  Thumbnail,
-  Text,
-  Button,
-  Icon,
-  Left,
-  Body,
-  Right,
-} from 'native-base';
+import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Card, CardItem, Thumbnail, Text, Left, Body, Right} from 'native-base';
 
 export default function CardNews({data}) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container}>
       <Card>
         <CardItem>
           <Left>
@@ -32,7 +22,7 @@ export default function CardNews({data}) {
         <CardItem cardBody>
           <Image
             source={require('../../assets/default-avatar.png')}
-            style={{height: 200, width: null, flex: 1}}
+            style={styles.thubNail}
           />
         </CardItem>
         <CardItem style={styles.content}>
@@ -46,7 +36,7 @@ export default function CardNews({data}) {
           </View>
         </CardItem>
       </Card>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -68,5 +58,10 @@ const styles = StyleSheet.create({
   time: {
     color: '#9b9b9b',
     fontSize: 12,
+  },
+  thubNail: {
+    height: 200,
+    width: null,
+    flex: 1,
   },
 });
