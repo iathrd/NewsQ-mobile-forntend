@@ -1,11 +1,28 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {Formik} from 'formik';
 import {Item, Input, Label, Button} from 'native-base';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 import {editNews} from '../helpers/validations';
 
 export default function FormNews() {
+  const openFile = () => {
+    const option = {
+      mediaType: 'photo',
+      includeBase64: true,
+    };
+    launchImageLibrary(option, (response) => {
+      if (response.didCancel) {
+        console.log('Cancel...');
+      } else if (response.error) {
+        console.log(response.error);
+      } else {
+        console.log(response.fileName);
+      }
+    });
+  };
+
   return (
     <View>
       <Formik
@@ -43,12 +60,16 @@ export default function FormNews() {
             </View>
             <View style={styles.imageWrapper}>
               <Item>
-                <View style={styles.thubNail}>
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="#DDDDDD"
+                  onPress={openFile}
+                  style={styles.thubNail}>
                   <Image
                     style={styles.image}
                     source={require('../../assets/default-avatar.png')}
                   />
-                </View>
+                </TouchableHighlight>
               </Item>
             </View>
             <View style={styles.inputWrapper}>
