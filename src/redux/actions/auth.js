@@ -6,4 +6,11 @@ export default {
     type: 'LOGIN',
     payload: http().post(),
   }),
+  register: (data) => ({
+    type: 'REGISTER',
+    payload: http().post('auth/register', qs.stringify(data)),
+  }),
+  clearMessage: () => ({
+    type: 'CLEAR_MESSAGE',
+  }),
 };

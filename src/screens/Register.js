@@ -1,19 +1,57 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {Item, Input, Label, Button} from 'native-base';
+import {Item, Input, Label, Button, Spinner} from 'native-base';
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import ModalSuccess from '../components/ModalSuccess';
+import ModalError from '../components/ModalError';
 
 import {register} from '../helpers/validations';
 
+//redux
+import {useSelector, useDispatch} from 'react-redux';
+import authAction from '../redux/actions/auth';
+
 export default function Register({navigation}) {
+  const dispatch = useDispatch();
+  const registerr = useSelector((state) => state.auth);
+
+  const closeModal = () => {
+    dispatch(authAction.clearMessage());
+    navigation.goBack();
+  };
+
+  const closeModalError = () => {
+    dispatch(authAction.clearMessage());
+  };
+
+  const createRegister = (data) => {
+    dispatch(authAction.register(data));
+  };
+
   return (
     <View style={styles.container}>
+      {registerr.isSuccess && (
+        <ModalSuccess
+          modal={registerr.isSuccess}
+          closeModal={closeModal}
+          message={register.alertMsg}
+        />
+      )}
+
+      {registerr.isError && (
+        <ModalError
+          modal={registerr.isError}
+          closeModal={closeModalError}
+          message={registerr.alertMsg}
+        />
+      )}
+
       <View style={styles.contentWrapper}>
         <Formik
           initialValues={{username: '', email: '', password: ''}}
           validationSchema={register}
-          onSubmit={(values) => console.log(values)}>
+          onSubmit={(values) => createRegister(values)}>
           {({
             values,
             handleBlur,
@@ -86,11 +124,16 @@ export default function Register({navigation}) {
               </View>
               <View style={styles.btnWrapper}>
                 <Button
+                  disabled={register.isLoading ? true : false}
                   onPress={handleSubmit}
                   style={styles.btnLogin}
                   full
                   info>
-                  <Text style={styles.loginText}>Register</Text>
+                  {registerr.isLoading ? (
+                    <Spinner color="white" size={30} />
+                  ) : (
+                    <Text style={styles.loginText}>Register</Text>
+                  )}
                 </Button>
               </View>
             </>
