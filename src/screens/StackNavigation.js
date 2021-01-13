@@ -9,6 +9,7 @@ const Stack = createStackNavigator();
 //screens
 import Home from './Home';
 import MyNews from './MyNews';
+import MyProfile from './MyProfile';
 
 export const HomeStack = () => {
   return (
@@ -21,6 +22,11 @@ export const HomeStack = () => {
               onPress={() => navigation.openDrawer()}
               style={styles.btnDrawer}>
               <Icon name="menu" color="black" size={27} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity style={styles.hRight}>
+              <Icon name="search" color="black" size={27} />
             </TouchableOpacity>
           ),
         })}
@@ -44,9 +50,35 @@ export const MyNewsStack = () => {
               <Icon name="menu" color="black" size={27} />
             </TouchableOpacity>
           ),
+          headerRight: () => (
+            <TouchableOpacity style={styles.hRight}>
+              <Icon name="search" color="black" size={27} />
+            </TouchableOpacity>
+          ),
         })}
         name="MyNews"
         component={MyNews}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export const MyProfileStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={({navigation}) => ({
+          title: 'My Profile',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.openDrawer()}
+              style={styles.btnDrawer}>
+              <Icon name="menu" color="black" size={27} />
+            </TouchableOpacity>
+          ),
+        })}
+        name="MyProfile"
+        component={MyProfile}
       />
     </Stack.Navigator>
   );
@@ -60,5 +92,8 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     // borderRadius: 5,
     // backgroundColor: '#2196F3',
+  },
+  hRight: {
+    marginRight: 16,
   },
 });
