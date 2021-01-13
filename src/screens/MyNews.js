@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
-import CardNews from '../components/CardNews';
+import CardMyNews from '../components/CardMyNews';
 
 const DATA = [
   {
@@ -20,7 +20,10 @@ const DATA = [
 export default function MyNews() {
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList data={DATA} renderItem={({item}) => <CardNews data={item} />} />
+      <FlatList
+        data={DATA}
+        renderItem={({item}) => <CardMyNews data={item} />}
+      />
     </SafeAreaView>
   );
 }
