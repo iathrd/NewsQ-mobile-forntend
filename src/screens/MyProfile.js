@@ -3,6 +3,9 @@ import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import {Thumbnail, Button, Item, Input, Label} from 'native-base';
 import {Formik} from 'formik';
 
+//helpers
+import {editProfile} from '../helpers/validations';
+
 export default function MyProfile() {
   return (
     <View style={styles.container}>
@@ -22,10 +25,18 @@ export default function MyProfile() {
       <View>
         <Formik
           initialValues={{username: '', email: ''}}
+          validationSchema={editProfile}
           onSubmit={(values) => console.log(values)}>
-          {({handleChange, handleBlur, isSubmitting, values, handleSubmit}) => (
+          {({
+            handleChange,
+            handleBlur,
+            values,
+            handleSubmit,
+            errors,
+            touched,
+          }) => (
             <>
-              <Item stackedLabel style={{marginLeft: 0}}>
+              <Item stackedLabel style={styles.item}>
                 <Label>Username</Label>
                 <Input
                   name="username"
@@ -34,7 +45,13 @@ export default function MyProfile() {
                   value={values.username}
                 />
               </Item>
-              <Item stackedLabel style={{marginLeft: 0}}>
+
+              <View style={styles.errorWrapper}>
+                {errors.username && touched.username && (
+                  <Text style={styles.textError}>{errors.username}</Text>
+                )}
+              </View>
+              <Item stackedLabel style={styles.item}>
                 <Label>Email</Label>
                 <Input
                   name="email"
@@ -43,6 +60,11 @@ export default function MyProfile() {
                   value={values.email}
                 />
               </Item>
+              <View style={styles.errorWrapper}>
+                {errors.email && touched.email && (
+                  <Text style={styles.textError}>{errors.email}</Text>
+                )}
+              </View>
               <View style={styles.btnWrapper2}>
                 <Button onPress={handleSubmit} style={styles.btnSave}>
                   <Text style={styles.textSave}>Save</Text>
@@ -90,8 +112,20 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     borderRadius: 5,
     marginTop: 30,
+    backgroundColor: '#0e9938',
   },
   textSave: {
     color: 'white',
+  },
+  errorWrapper: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  item: {
+    marginLeft: 0,
+  },
+  textError: {
+    color: 'red',
+    fontSize: 12,
   },
 });
