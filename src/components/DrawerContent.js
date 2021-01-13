@@ -71,6 +71,21 @@ export function DrawerContent(props) {
           </View>
           <View>
             <DrawerItem
+              label="Upload News"
+              icon={({color, size, focused}) => (
+                <Icon
+                  name={focused ? 'newspaper' : 'newspaper'}
+                  size={size}
+                  color={color}
+                />
+              )}
+              onPress={() => {
+                props.navigation.navigate('Upload News');
+              }}
+            />
+          </View>
+          <View>
+            <DrawerItem
               label="Logout"
               icon={({color, size, focused}) => (
                 <Icon

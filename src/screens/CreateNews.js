@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 export default function CreateNews() {
   return (
     <View style={styles.container}>
-      <Text></Text>
+      <Text>Crete News</Text>
     </View>
   );
 }

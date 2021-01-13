@@ -11,6 +11,7 @@ import Home from './Home';
 import MyNews from './MyNews';
 import MyProfile from './MyProfile';
 import EditNews from './EditNews';
+import CreateNews from './CreateNews';
 
 export const HomeStack = () => {
   return (
@@ -94,6 +95,27 @@ export const MyProfileStack = () => {
         })}
         name="MyProfile"
         component={MyProfile}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export const CreateNewsStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={({navigation}) => ({
+          title: 'Upload News',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.openDrawer()}
+              style={styles.btnDrawer}>
+              <Icon name="menu" color="black" size={27} />
+            </TouchableOpacity>
+          ),
+        })}
+        name="CreateNews"
+        component={CreateNews}
       />
     </Stack.Navigator>
   );
