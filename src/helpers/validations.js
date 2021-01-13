@@ -18,3 +18,18 @@ export const editNews = Yup.object().shape({
     .trim()
     .required('Content is required'),
 });
+
+export const register = Yup.object().shape({
+  username: Yup.string()
+    .trim()
+    .min(5, 'Username to sort')
+    .required('Username is required'),
+  email: Yup.string()
+    .trim()
+    .email('Invalid email adress')
+    .required('Email is required'),
+  password: Yup.string()
+    .trim()
+    .min(8, 'Password at least 8 karacters')
+    .required('Password is required'),
+});
