@@ -12,6 +12,7 @@ import MyNews from './MyNews';
 import MyProfile from './MyProfile';
 import EditNews from './EditNews';
 import CreateNews from './CreateNews';
+import NewsDetail from './NewsDetails';
 
 export const HomeStack = () => {
   return (
@@ -34,6 +35,13 @@ export const HomeStack = () => {
         })}
         name="Home"
         component={Home}
+      />
+      <Stack.Screen
+        options={({navigation}) => ({
+          title: null,
+        })}
+        name="NewsDetails"
+        component={NewsDetail}
       />
     </Stack.Navigator>
   );
@@ -64,13 +72,6 @@ export const MyNewsStack = () => {
       <Stack.Screen
         options={({navigation}) => ({
           title: 'Edit News',
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.openDrawer()}
-              style={styles.btnDrawer}>
-              <Icon name="menu" color="black" size={27} />
-            </TouchableOpacity>
-          ),
         })}
         name="EditNews"
         component={EditNews}

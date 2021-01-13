@@ -17,10 +17,15 @@ const DATA = [
   },
 ];
 
-export default function Home() {
+export default function Home({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList data={DATA} renderItem={({item}) => <CardNews data={item} />} />
+      <FlatList
+        data={DATA}
+        renderItem={({item}) => (
+          <CardNews data={item} navigation={navigation} />
+        )}
+      />
     </SafeAreaView>
   );
 }

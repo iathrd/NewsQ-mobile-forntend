@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import FormNews from '../components/FormNews';
 
 export default function CreateNews() {
   return (
     <View style={styles.container}>
-      <Text>Crete News</Text>
+      <FormNews />
     </View>
   );
 }

@@ -2,9 +2,11 @@ import React from 'react';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Card, CardItem, Thumbnail, Text, Left, Body, Right} from 'native-base';
 
-export default function CardNews({data}) {
+export default function CardNews({data, navigation}) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('NewsDetails')}
+      style={styles.container}>
       <Card>
         <CardItem>
           <Left>
