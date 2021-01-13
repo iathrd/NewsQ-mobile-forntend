@@ -1,14 +1,94 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import {Thumbnail, Button, Item, Input, Label} from 'native-base';
+import {Thumbnail, Button, Item, Input, Label, Image} from 'native-base';
 import {Formik} from 'formik';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Modal from 'react-native-modal';
 
 //helpers
 import {editProfile} from '../helpers/validations';
 
 export default function MyProfile() {
+  const [modal, setModal] = useState(false);
+
+  const handleModal = () => {
+    setModal(!modal);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+  const openFile = () => {
+    setModal(false);
+    const option = {
+      mediaType: 'photo',
+      includeBase64: true,
+    };
+    launchImageLibrary(option, (response) => {
+      if (response.didCancel) {
+        console.log('Cancel...');
+      } else if (response.error) {
+        console.log(response.error);
+      } else {
+        console.log(response.fileName);
+      }
+    });
+  };
+  const openCamera = async () => {
+    const option = {
+      mediaType: 'photo',
+      saveToPhotos: true,
+      maxWidth: 500,
+      maxHeight: 500,
+      quality: 1,
+      includeBase64: true,
+    };
+    await launchCamera(option, (response) => {
+      if (response.didCancel) {
+        console.log('Cancel...');
+      } else if (response.error) {
+        console.log(response.error);
+      } else {
+        console.log(response.fileName);
+      }
+    });
+  };
   return (
     <View style={styles.container}>
+      <View>
+        <Modal
+          onBackButtonPress={closeModal}
+          onBackdropPress={closeModal}
+          animationInTiming={500}
+          animationOutTiming={300}
+          isVisible={modal}>
+          <View style={styles.modalWrapper}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalLabelWrapper}>
+                <Text style={styles.labelModal}>Choose a profile image</Text>
+              </View>
+              <View>
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="#DDDDDD"
+                  style={styles.touchModal}
+                  onPress={openCamera}>
+                  <Text style={styles.textModal}>Take photo</Text>
+                </TouchableHighlight>
+              </View>
+              <View>
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="#DDDDDD"
+                  style={styles.touchModal}
+                  onPress={openFile}>
+                  <Text style={styles.textModal}>Choose from gallery</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
       <View style={styles.labelWrapper}>
         <Text style={styles.label}>Edit your profile</Text>
       </View>
@@ -17,7 +97,11 @@ export default function MyProfile() {
           <Thumbnail source={require('../../assets/default-avatar.png')} />
         </View>
         <View style={styles.btnWrapper}>
-          <TouchableHighlight>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="#DDDDDD"
+            onPress={handleModal}
+            style={styles.touch}>
             <Text style={styles.btnText}>Choose an Image</Text>
           </TouchableHighlight>
         </View>
@@ -127,5 +211,38 @@ const styles = StyleSheet.create({
   textError: {
     color: 'red',
     fontSize: 12,
+  },
+  touch: {
+    padding: 15,
+  },
+  modalWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    height: '30%',
+    borderRadius: 5,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  touchModal: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  textModal: {
+    fontSize: 16,
+  },
+  modalLabelWrapper: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  labelModal: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
