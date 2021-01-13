@@ -1,18 +1,32 @@
 import React from 'react';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {Card, CardItem, Thumbnail, Text, Left, Body, Right} from 'native-base';
+import {Card, Thumbnail, Body, CardItem, Text, Left} from 'native-base';
 
 export default function CardMyNews({data}) {
   return (
     <TouchableOpacity style={styles.container}>
       <Card>
+        <CardItem>
+          <Left>
+            <Thumbnail
+              small
+              source={require('../../assets/default-avatar.png')}
+            />
+            <Body>
+              <Text>Iqbal Athorid</Text>
+            </Body>
+          </Left>
+          {/* <Right>
+            <Text style={styles.creator}>Iqbal Athorid</Text>
+          </Right> */}
+        </CardItem>
         <CardItem style={styles.headerCard}>
           <Left>
             <Text style={styles.textJudul} numberOfLines={3}>
               Gubernur Banten Pakai Pfizer, Sleman Suntik dr Tirta Esok
             </Text>
           </Left>
-          <View style={{paddingLeft: 10}}>
+          <View style={styles.timeWrapper}>
             <Text style={styles.time}>08.00pm</Text>
             <Text style={styles.time}>12-10-2020</Text>
           </View>
@@ -68,5 +82,8 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 15,
     fontWeight: 'bold',
+  },
+  timeWrapper: {
+    paddingLeft: 10,
   },
 });

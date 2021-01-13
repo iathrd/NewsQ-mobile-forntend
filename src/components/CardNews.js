@@ -8,17 +8,30 @@ export default function CardNews({data}) {
       <Card>
         <CardItem>
           <Left>
-            <Thumbnail source={require('../../assets/default-avatar.png')} />
+            <Thumbnail
+              small
+              source={require('../../assets/default-avatar.png')}
+            />
             <Body>
-              <Text>NativeBase</Text>
-              <Text note>GeekyAnts</Text>
+              <Text>Iqbal Athorid</Text>
             </Body>
           </Left>
-          <Right>
+          {/* <Right>
+            <Text style={styles.creator}>Iqbal Athorid</Text>
+          </Right> */}
+        </CardItem>
+        <CardItem style={styles.headerCard}>
+          <Left>
+            <Text style={styles.textJudul} numberOfLines={3}>
+              Gubernur Banten Pakai Pfizer, Sleman Suntik dr Tirta Esok
+            </Text>
+          </Left>
+          <View style={styles.timeWrapper}>
             <Text style={styles.time}>08.00pm</Text>
             <Text style={styles.time}>12-10-2020</Text>
-          </Right>
+          </View>
         </CardItem>
+
         <CardItem cardBody>
           <Image
             source={require('../../assets/default-avatar.png')}
@@ -64,4 +77,8 @@ const styles = StyleSheet.create({
     width: null,
     flex: 1,
   },
+  headerCard: {
+    paddingLeft: 10,
+  },
+  
 });
