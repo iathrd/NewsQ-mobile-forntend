@@ -4,14 +4,24 @@ import {Item, Input, Label, Button} from 'native-base';
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import {register} from '../helpers/validations';
+
 export default function Register({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
         <Formik
           initialValues={{username: '', email: '', password: ''}}
+          validationSchema={register}
           onSubmit={(values) => console.log(values)}>
-          {({values, handleBlur, handleChange, handleSubmit}) => (
+          {({
+            values,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            errors,
+            touched,
+          }) => (
             <>
               <View style={styles.inputWrapper}>
                 <Label>Username</Label>
@@ -25,6 +35,9 @@ export default function Register({navigation}) {
                     value={values.username}
                   />
                 </Item>
+                {errors.username && touched.username && (
+                  <Text style={styles.textError}>{errors.username}</Text>
+                )}
               </View>
               <View style={styles.inputWrapper}>
                 <Label>Email</Label>
@@ -38,6 +51,9 @@ export default function Register({navigation}) {
                     value={values.email}
                   />
                 </Item>
+                {errors.email && touched.email && (
+                  <Text style={styles.textError}>{errors.email}</Text>
+                )}
               </View>
               <View>
                 <Label>Password</Label>
@@ -52,6 +68,9 @@ export default function Register({navigation}) {
                     value={values.password}
                   />
                 </Item>
+                {errors.password && touched.password && (
+                  <Text style={styles.textError}>{errors.password}</Text>
+                )}
               </View>
               <View style={styles.registerWrapper}>
                 <TouchableOpacity
@@ -116,5 +135,10 @@ const styles = StyleSheet.create({
   },
   item: {
     borderRadius: 5,
+  },
+  textError: {
+    color: 'red',
+    fontSize: 12,
+    marginLeft: 10,
   },
 });

@@ -81,4 +81,7 @@ const styles = StyleSheet.create({
   item: {
     borderRadius: 5,
   },
+  textError: {
+    color: 'red',
+  },
 });
