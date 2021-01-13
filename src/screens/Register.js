@@ -33,15 +33,15 @@ export default function Register({navigation}) {
     <View style={styles.container}>
       {registerr.isSuccess && (
         <ModalSuccess
-          modal={registerr.isSuccess}
+          modal={true}
           closeModal={closeModal}
-          message={register.alertMsg}
+          message={registerr.alertMsg}
         />
       )}
 
       {registerr.isError && (
         <ModalError
-          modal={registerr.isError}
+          modal={true}
           closeModal={closeModalError}
           message={registerr.alertMsg}
         />

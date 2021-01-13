@@ -4,7 +4,7 @@ import qs from 'querystring';
 export default {
   doLogin: (data) => ({
     type: 'LOGIN',
-    payload: http().post(),
+    payload: http().post('/auth/login', qs.stringify(data)),
   }),
   register: (data) => ({
     type: 'REGISTER',

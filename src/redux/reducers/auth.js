@@ -14,6 +14,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: true,
         isError: false,
+        isSuccess: false,
         alertMsg: 'Login ...',
       };
     }
@@ -23,6 +24,7 @@ export default (state = initialState, action) => {
         isLoading: false,
         isLogin: true,
         isError: false,
+        isSuccess: true,
         token: action.payload.data.token,
       };
     }
@@ -31,7 +33,8 @@ export default (state = initialState, action) => {
         ...state,
         isLogin: false,
         isError: true,
-        alertMsg: 'Wrong email or password',
+        isLoading: false,
+        alertMsg: action.payload.response.data.message,
       };
     }
 
@@ -51,7 +54,7 @@ export default (state = initialState, action) => {
         isLogin: true,
         isError: false,
         isSuccess: true,
-        alertMsg: 'Register succesfuly',
+        alertMsg: action.payload.data.message,
       };
     }
     case 'REGISTER_REJECTED': {
@@ -60,6 +63,7 @@ export default (state = initialState, action) => {
         isLogin: false,
         isError: true,
         isSuccess: false,
+        isLoading: false,
         alertMsg: action.payload.response.data.message,
       };
     }
@@ -70,7 +74,6 @@ export default (state = initialState, action) => {
         isSuccess: false,
         isError: false,
         alertMsg: '',
-        isLoading: false,
       };
     }
 
