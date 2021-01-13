@@ -1,5 +1,6 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {createStackNavigator} from '@react-navigation/stack';
@@ -13,6 +14,7 @@ import MyProfile from './MyProfile';
 import EditNews from './EditNews';
 import CreateNews from './CreateNews';
 import NewsDetail from './NewsDetails';
+import SearchNews from './SearchNews';
 
 export const HomeStack = () => {
   return (
@@ -28,7 +30,9 @@ export const HomeStack = () => {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <TouchableOpacity style={styles.hRight}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Search')}
+              style={styles.hRight}>
               <Icon name="search" color="black" size={27} />
             </TouchableOpacity>
           ),
@@ -42,6 +46,26 @@ export const HomeStack = () => {
         })}
         name="NewsDetails"
         component={NewsDetail}
+      />
+      <Stack.Screen
+        options={({navigation}) => ({
+          title: null,
+          headerRight: () => (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{width: 250}}>
+                <Item rounded>
+                  <Input autoFocus placeholder="Search" />
+                  <Icon name="search" size={27} style={{marginRight: 10}} />
+                </Item>
+              </View>
+              <View style={{marginLeft: 16, marginRight: 16}}>
+                <Icon name="sort" size={27} />
+              </View>
+            </View>
+          ),
+        })}
+        name="Search"
+        component={SearchNews}
       />
     </Stack.Navigator>
   );
@@ -133,5 +157,6 @@ const styles = StyleSheet.create({
   },
   hRight: {
     marginRight: 16,
+    padding: 10,
   },
 });
