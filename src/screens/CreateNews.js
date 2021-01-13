@@ -1,12 +1,10 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
-import FormNews from '../components/FormNews';
-
-export default function EditNews() {
+export default function CreateNews() {
   return (
     <View style={styles.container}>
-      <FormNews />
+      <Text></Text>
     </View>
   );
 }
