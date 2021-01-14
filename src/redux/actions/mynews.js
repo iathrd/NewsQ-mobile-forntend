@@ -12,7 +12,7 @@ export default {
   }),
   editNews: (token, id, data) => ({
     type: 'UPDATE_NEWS',
-    payload: http(token).patch(`news/editNews/${id}`, qs.stringify(data)),
+    payload: http(token).patch(`news/editNews/${id}`, data),
   }),
   uploadImage: (token, id, data) => ({
     type: 'UPLOAD_IMAGE',

@@ -2,6 +2,8 @@ import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import CardNews from '../components/CardNews';
 
+import {useSelector, useDispatch} from 'react-redux';
+
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -18,10 +20,11 @@ const DATA = [
 ];
 
 export default function SearchNews({navigation}) {
+  const search = useSelector((state) => state.news);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={DATA}
+        data={search.searchNews}
         renderItem={({item}) => (
           <CardNews data={item} navigation={navigation} />
         )}

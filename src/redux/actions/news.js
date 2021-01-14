@@ -10,4 +10,14 @@ export default {
     type: 'LOAD_NEWS',
     payload: http(token).get(api),
   }),
+  searchNews: (token, search = '') => ({
+    type: 'SEARCH_NEWS',
+    payload: http(token).get('/news/news', {
+      params: {limit: 3, search: search},
+    }),
+  }),
+  loadNews2: (token, api) => ({
+    type: 'LOAD_NEWS2',
+    payload: http(token).get(api),
+  }),
 };

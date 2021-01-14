@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Item, Input} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {createStackNavigator} from '@react-navigation/stack';
+
+import {useDispatch, useSelector} from 'react-redux';
+import searchAction from '../redux/actions/news';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +20,20 @@ import NewsDetail from './NewsDetails';
 import SearchNews from './SearchNews';
 
 export const HomeStack = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const [search, setSearch] = useState({search: '', isSubmit: false});
+
+  useEffect(() => {}, [search.isSubmit]);
+
+  const searchNews = () => {
+    dispatch(searchAction.searchNews(token, search.search));
+  };
+
+  const handleChange = (e) => {
+    setSearch({...search, search: e.target.value});
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -54,7 +71,13 @@ export const HomeStack = () => {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{width: 250}}>
                 <Item rounded>
-                  <Input autoFocus placeholder="Search" />
+                  <Input
+                    value={search.search}
+                    onChangeText={(text) => setSearch({search: text})}
+                    autoFocus
+                    onSubmitEditing={searchNews}
+                    placeholder="Search"
+                  />
                   <Icon name="search" size={27} style={{marginRight: 10}} />
                 </Item>
               </View>

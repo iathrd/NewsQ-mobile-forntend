@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {Formik} from 'formik';
-import {Item, Input, Label, Button} from 'native-base';
+import {Item, Input, Label, Button, Spinner} from 'native-base';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ModalLoading from '../components/ModalLoading';
 import ModalSuccess from '../components/ModalSuccess';
@@ -16,7 +16,6 @@ import {useSelector, useDispatch} from 'react-redux';
 export default function FormNews({
   data = {content: '', title: '', imageDescription: '', id: ''},
   gg = 'create',
-  navigation,
 }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -24,6 +23,7 @@ export default function FormNews({
   const [image, setImage] = useState();
   const [form, setForm] = useState();
   const create = new FormData();
+  const input = new FormData();
   const [kkkk, setKkkk] = useState({imgs: ''});
   const [coba, setCoba] = useState({uri: '', name: '', type: ''});
 
@@ -76,13 +76,11 @@ export default function FormNews({
     }
   };
 
-  const sendData = async (data) => {
-    const values = {
-      title: data.title,
-      imageDescription: data.imageDescription,
-      content: data.content,
-    };
-    await dispatch(editAction.editNews(token, data.id, values));
+  const sendData = async (values) => {
+    input.append('title', values.title);
+    input.append('imageDescription', values.imageDescription);
+    input.append('content', values.content);
+    await dispatch(editAction.editNews(token, data.id, input));
     uploadFile();
   };
 
@@ -172,7 +170,7 @@ export default function FormNews({
                   />
                 </TouchableHighlight>
               </Item>
-              {errors.image && (
+              {errors.image && touched.imageDescription && (
                 <Text style={{color: 'red'}}>{errors.image}</Text>
               )}
             </View>
@@ -214,7 +212,11 @@ export default function FormNews({
                 onPress={handleSubmit}
                 style={styles.btnUpload}
                 info>
-                <Text>Upload</Text>
+                {news.isLoading ? (
+                  <Spinner color="white" size={30} />
+                ) : (
+                  <Text>Upload</Text>
+                )}
               </Button>
             </View>
           </>

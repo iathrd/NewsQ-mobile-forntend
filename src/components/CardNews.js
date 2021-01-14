@@ -4,7 +4,10 @@ import {Card, CardItem, Thumbnail, Text, Left, Body} from 'native-base';
 import {API_URL} from '@env';
 import moment from 'moment';
 
-export default function CardNews({data, navigation}) {
+export default function CardNews({
+  data = {creator: {username: ''}, createdAt: '', title: '', content: ''},
+  navigation,
+}) {
   return (
     <View>
       <Card>
