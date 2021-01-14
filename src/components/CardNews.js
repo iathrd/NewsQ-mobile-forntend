@@ -9,7 +9,7 @@ export default function CardNews({data, navigation}) {
     <View>
       <Card>
         <TouchableOpacity
-          activeOpacity={0.5}
+          activeOpacity={0.2}
           underlayColor="#DDDDDD"
           onPress={() => navigation.navigate('NewsDetails', {data})}
           style={styles.container}>

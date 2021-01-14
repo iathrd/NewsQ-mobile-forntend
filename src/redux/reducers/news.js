@@ -5,6 +5,7 @@ const initialState = {
   isSuccess: false,
   alertMsg: '',
   pageInfo: {},
+  refresh: false,
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +17,7 @@ export default (state = initialState, action) => {
         isError: false,
         isSuccess: false,
         alertMsg: '',
+        refresh: false,
       };
     }
     case 'GET_NEWS_FULFILLED': {
@@ -26,6 +28,7 @@ export default (state = initialState, action) => {
         isSuccess: true,
         news: action.payload.data.data,
         pageInfo: action.payload.data.pageInfo,
+        refresh: true,
       };
     }
     case 'GET_NEWS_REJECTED': {
@@ -34,6 +37,7 @@ export default (state = initialState, action) => {
         isError: true,
         isLoading: false,
         alertMsg: action.payload.response.data.message,
+        refresh: false,
       };
     }
 
