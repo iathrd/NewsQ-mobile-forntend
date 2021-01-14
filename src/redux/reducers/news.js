@@ -1,5 +1,6 @@
 const initialState = {
   news: [],
+  searchNews: [],
   isLoading: false,
   isError: false,
   isSuccess: false,

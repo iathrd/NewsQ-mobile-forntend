@@ -17,6 +17,19 @@ export const editNews = Yup.object().shape({
     .min(100, 'content to sort')
     .trim()
     .required('Content is required'),
+  image: Yup.string(),
+});
+
+export const createNews = Yup.object().shape({
+  title: Yup.string().min(10, 'Title to sort').required('Title is Required'),
+  imageDescription: Yup.string()
+    .min(10, 'Description to sort')
+    .required('Image description is required'),
+  content: Yup.string()
+    .min(100, 'content to sort')
+    .trim()
+    .required('Content is required'),
+  image: Yup.string().required('Image is required'),
 });
 
 export const register = Yup.object().shape({

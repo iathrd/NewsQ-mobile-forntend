@@ -1,13 +1,16 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 
 import FormNews from '../components/FormNews';
 
-export default function EditNews() {
+export default function EditNews({route}) {
+  const {data, gg} = route.params;
   return (
-    <View style={styles.container}>
-      <FormNews />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <FormNews data={data} gg={gg} />
+      </View>
+    </ScrollView>
   );
 }
 

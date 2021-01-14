@@ -1,12 +1,39 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import FormNews from '../components/FormNews';
 
+import {useSelector, useDispatch} from 'react-redux';
+import ModalSuccess from '../components/ModalSuccess';
+import ModalError from '../components/ModalError';
+import newsAction from '../redux/actions/mynews';
+
 export default function CreateNews() {
+  const dispatch = useDispatch();
+  const news = useSelector((state) => state.mynews);
+
+  const closeModal = () => {
+    dispatch(newsAction.clearMessage());
+  };
   return (
-    <View style={styles.container}>
-      <FormNews />
-    </View>
+    <ScrollView>
+      {news.isSuccess && (
+        <ModalSuccess
+          modal={news.isSuccess}
+          closeModal={closeModal}
+          message={news.alertMsg}
+        />
+      )}
+      {news.isError && (
+        <ModalError
+          modal={news.isError}
+          closeModal={closeModal}
+          message={news.alertMsg}
+        />
+      )}
+      <View style={styles.container}>
+        <FormNews />
+      </View>
+    </ScrollView>
   );
 }
 

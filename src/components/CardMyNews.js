@@ -8,7 +8,9 @@ import {API_URL} from '@env';
 export default function CardMyNews({data, navigation}) {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('EditNews', {data})}
+      onPress={() =>
+        navigation.navigate('EditNews', {data, gg: 'edit', navigation})
+      }
       style={styles.container}>
       <Card>
         <CardItem>

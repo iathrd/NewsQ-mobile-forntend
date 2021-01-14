@@ -1,12 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {Formik} from 'formik';
 import {Item, Input, Label, Button} from 'native-base';
 import {launchImageLibrary} from 'react-native-image-picker';
+import ModalLoading from '../components/ModalLoading';
+import ModalSuccess from '../components/ModalSuccess';
+import ModalError from '../components/ModalError';
 
-import {editNews} from '../helpers/validations';
+import {editNews, createNews} from '../helpers/validations';
+import {API_URL} from '@env';
 
-export default function FormNews() {
+import editAction from '../redux/actions/mynews';
+import {useSelector, useDispatch} from 'react-redux';
+
+export default function FormNews({
+  data = {content: '', title: '', imageDescription: '', id: ''},
+  gg = 'create',
+  navigation,
+}) {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const news = useSelector((state) => state.mynews);
+  const [image, setImage] = useState();
+  const [form, setForm] = useState();
+  const create = new FormData();
+  const [kkkk, setKkkk] = useState({imgs: ''});
+  const [coba, setCoba] = useState({uri: '', name: '', type: ''});
+
   const openFile = () => {
     const option = {
       mediaType: 'photo',
@@ -19,20 +39,90 @@ export default function FormNews() {
         console.log(response.error);
       } else {
         console.log(response.fileName);
+        setImage(response.uri);
+
+        if (gg === 'edit') {
+          const forms = new FormData();
+          forms.append('image', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          setForm(forms);
+        } else {
+          setKkkk({imgs: response.fileName});
+          setCoba({
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+        }
       }
     });
   };
 
+  const closeModal = () => {
+    dispatch(editAction.clearMessage());
+    setImage(undefined);
+  };
+
+  const closeModal2 = () => {
+    dispatch(editAction.clearMessage());
+  };
+
+  const uploadFile = () => {
+    if (form !== undefined) {
+      dispatch(editAction.uploadImage(token, data.id, form));
+    }
+  };
+
+  const sendData = async (data) => {
+    const values = {
+      title: data.title,
+      imageDescription: data.imageDescription,
+      content: data.content,
+    };
+    await dispatch(editAction.editNews(token, data.id, values));
+    uploadFile();
+  };
+
+  const createData = async (values) => {
+    create.append('image', coba);
+    create.append('title', values.title);
+    create.append('imageDescription', values.imageDescription);
+    create.append('content', values.content);
+    dispatch(editAction.createNews(token, create));
+  };
+
   return (
     <View>
+      {news.isLoading && <ModalLoading modal={news.isLoading} />}
+      {news.isSuccess && (
+        <ModalSuccess
+          modal={news.isSuccess}
+          closeModal={closeModal}
+          message={news.alertMsg}
+        />
+      )}
+      {news.isError && (
+        <ModalError
+          modal={news.isError}
+          closeModal={closeModal2}
+          message={news.alertMsg}
+        />
+      )}
       <Formik
         initialValues={{
-          content: '',
-          title: '',
-          imageDescription: '',
+          content: data.content || '',
+          title: data.title || '',
+          imageDescription: data.imageDescription || '',
+          image: kkkk.imgs,
         }}
-        validationSchema={editNews}
-        onSubmit={(values) => console.log(values)}>
+        validationSchema={gg === 'edit' ? editNews : createNews}
+        enableReinitialize
+        onSubmit={(values) =>
+          gg === 'edit' ? sendData(values) : createData(values)
+        }>
         {({
           handleChange,
           handleBlur,
@@ -67,10 +157,24 @@ export default function FormNews() {
                   style={styles.thubNail}>
                   <Image
                     style={styles.image}
-                    source={require('../../assets/default-avatar.png')}
+                    source={
+                      data.image !== undefined
+                        ? {
+                            uri:
+                              image !== undefined
+                                ? image
+                                : `${API_URL}${data.image}`,
+                          }
+                        : image !== undefined
+                        ? {uri: image}
+                        : require('../../assets/default-avatar.png')
+                    }
                   />
                 </TouchableHighlight>
               </Item>
+              {errors.image && (
+                <Text style={{color: 'red'}}>{errors.image}</Text>
+              )}
             </View>
             <View style={styles.inputWrapper}>
               <Label style={styles.labelText}>Image Description</Label>
@@ -105,7 +209,11 @@ export default function FormNews() {
               )}
             </View>
             <View style={styles.btnWrapper}>
-              <Button onPress={handleSubmit} style={styles.btnUpload} info>
+              <Button
+                disabled={news.isLoading ? true : false}
+                onPress={handleSubmit}
+                style={styles.btnUpload}
+                info>
                 <Text>Upload</Text>
               </Button>
             </View>
@@ -140,6 +248,7 @@ const styles = StyleSheet.create({
   },
   btnWrapper: {
     alignSelf: 'flex-end',
+    marginBottom: 50,
   },
   btnUpload: {
     paddingLeft: 30,

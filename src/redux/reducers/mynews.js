@@ -4,6 +4,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   alertMsg: '',
+  uploadImage: false,
   pageInfo: {},
   refresh: false,
 };
@@ -25,7 +26,6 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        isSuccess: true,
         news: action.payload.data.data,
         pageInfo: action.payload.data.pageInfo,
         refresh: true,
@@ -61,6 +61,90 @@ export default (state = initialState, action) => {
       };
     }
     case 'LOAD_MYNEWS_REJECTED': {
+      return {
+        ...state,
+        isError: true,
+        isLoading: false,
+        alertMsg: action.payload.response.data.message,
+      };
+    }
+
+    case 'UPDATE_NEWS_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        alertMsg: '',
+      };
+    }
+    case 'UPDATE_NEWS_FULFILLED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isSuccess: true,
+        alertMsg: 'Update News succesfully!',
+      };
+    }
+    case 'UPDATE_NEWS_REJECTED': {
+      return {
+        ...state,
+        isError: true,
+        isLoading: false,
+        alertMsg: action.payload.response.data.message,
+      };
+    }
+
+    case 'UPLOAD_IMAGE_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        uploadImage: false,
+        alertMsg: '',
+      };
+    }
+    case 'UPLOAD_IMAGE_FULFILLED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isSuccess: true,
+        uploadImage: true,
+        alertMsg: 'Update News succesfully!',
+      };
+    }
+    case 'UPLOAD_IMAGE_REJECTED': {
+      return {
+        ...state,
+        isError: true,
+        isLoading: false,
+        uploadImage: false,
+        alertMsg: action.payload.response.data.message,
+      };
+    }
+
+    case 'CREATE_NEWS_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        alertMsg: '',
+      };
+    }
+    case 'CREATE_NEWS_FULFILLED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isSuccess: true,
+        alertMsg: 'Create News succesfully!',
+      };
+    }
+    case 'CREATE_NEWS_REJECTED': {
       return {
         ...state,
         isError: true,
