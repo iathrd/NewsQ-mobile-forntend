@@ -4,7 +4,18 @@ import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Thumbnail} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {API_URL} from '@env';
+import authAction from '../redux/actions/auth';
+
 export function DrawerContent(props) {
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch(authAction.logOut());
+  };
+
   return (
     <View style={styles.container}>
       <DrawerContentScrollView {...props}>
@@ -21,13 +32,17 @@ export function DrawerContent(props) {
                 <View>
                   <Thumbnail
                     large
-                    source={require('../../assets/default-avatar.png')}
+                    source={
+                      user.avatar === null
+                        ? require('../../assets/default-avatar.png')
+                        : {uri: `${API_URL}${user.avatar}`}
+                    }
                   />
                 </View>
                 <View style={styles.userWrapper}>
                   <View>
                     <Text numberOfLines={1} style={styles.username}>
-                      Iqbal Athorid
+                      {user.username}
                     </Text>
                   </View>
                   <View>
@@ -86,6 +101,7 @@ export function DrawerContent(props) {
           </View>
           <View>
             <DrawerItem
+              onPress={logout}
               label="Logout"
               icon={({color, size, focused}) => (
                 <Icon

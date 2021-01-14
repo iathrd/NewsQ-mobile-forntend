@@ -29,7 +29,6 @@ export default (state = initialState, action) => {
     case 'GET_USER_REJECTED': {
       return {
         ...state,
-        isLogin: false,
         isError: true,
         isLoading: false,
         alertMsg: action.payload.response.data.message,
@@ -49,16 +48,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLogin: true,
         isError: false,
         isSuccess: true,
-        alertMsg: action.payload.data.message,
+        alertMsg: 'Update user succesfully!',
       };
     }
     case 'UPDATE_USER_REJECTED': {
       return {
         ...state,
-        isLogin: false,
         isError: true,
         isSuccess: false,
         isLoading: false,
@@ -75,13 +72,6 @@ export default (state = initialState, action) => {
       };
     }
 
-    case 'LOGOUT': {
-      return {
-        ...state,
-        isLogin: false,
-        token: '',
-      };
-    }
     default: {
       return state;
     }

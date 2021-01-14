@@ -1,15 +1,27 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import {Thumbnail, Button, Item, Input, Label, Image} from 'native-base';
+import {Thumbnail, Button, Item, Input, Label, Spinner} from 'native-base';
 import {Formik} from 'formik';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Modal from 'react-native-modal';
+import ModalSucces from '../components/ModalSuccess';
+import ModalError from '../components/ModalError';
+
+import {useSelector, useDispatch} from 'react-redux';
+import userAction from '../redux/actions/user';
+import {API_URL} from '@env';
 
 //helpers
 import {editProfile} from '../helpers/validations';
 
 export default function MyProfile() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.auth.token);
   const [modal, setModal] = useState(false);
+  const [image, setImage] = useState({uri: '', name: '', type: ''});
+  const [displayImage, setDispayImage] = useState();
+  const cobba = new FormData();
 
   const handleModal = () => {
     setModal(!modal);
@@ -30,10 +42,20 @@ export default function MyProfile() {
       } else if (response.error) {
         console.log(response.error);
       } else {
-        console.log(response.fileName);
+        setDispayImage(response.uri);
+        setImage({
+          uri: response.uri,
+          name: response.fileName,
+          type: response.type,
+        });
       }
     });
   };
+
+  const onCLose = () => {
+    dispatch(userAction.clearMessage());
+  };
+
   const openCamera = async () => {
     const option = {
       mediaType: 'photo',
@@ -53,8 +75,31 @@ export default function MyProfile() {
       }
     });
   };
+
+  const saveUser = (values) => {
+    cobba.append('avatar', image);
+    cobba.append('username', values.username);
+    cobba.append('email', values.password);
+
+    dispatch(userAction.updateUser(token, cobba));
+  };
+
   return (
     <View style={styles.container}>
+      {user.isSuccess && (
+        <ModalSucces
+          modal={user.isSuccess}
+          closeModal={onCLose}
+          message={user.alertMsg}
+        />
+      )}
+      {user.isError && (
+        <ModalError
+          modal={user.isError}
+          closeModal={onCLose}
+          message={user.alertMsg}
+        />
+      )}
       <View>
         <Modal
           onBackButtonPress={closeModal}
@@ -94,7 +139,17 @@ export default function MyProfile() {
       </View>
       <View style={styles.imageWrapper}>
         <View>
-          <Thumbnail source={require('../../assets/default-avatar.png')} />
+          <Thumbnail
+            source={
+              user.user.avatar === null
+                ? displayImage !== undefined
+                  ? {uri: displayImage}
+                  : require('../../assets/default-avatar.png')
+                : displayImage !== undefined
+                ? {uri: displayImage}
+                : {uri: `${API_URL}${user.user.avatar}`}
+            }
+          />
         </View>
         <View style={styles.btnWrapper}>
           <TouchableHighlight
@@ -108,9 +163,10 @@ export default function MyProfile() {
       </View>
       <View>
         <Formik
-          initialValues={{username: '', email: ''}}
+          initialValues={{username: user.user.username, email: user.user.email}}
           validationSchema={editProfile}
-          onSubmit={(values) => console.log(values)}>
+          enableReinitialize
+          onSubmit={(values) => saveUser(values)}>
           {({
             handleChange,
             handleBlur,
@@ -151,7 +207,11 @@ export default function MyProfile() {
               </View>
               <View style={styles.btnWrapper2}>
                 <Button onPress={handleSubmit} style={styles.btnSave}>
-                  <Text style={styles.textSave}>Save</Text>
+                  {user.isLoading ? (
+                    <Spinner color="white" size={30} />
+                  ) : (
+                    <Text style={styles.textSave}>Save</Text>
+                  )}
                 </Button>
               </View>
             </>

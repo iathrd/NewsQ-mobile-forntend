@@ -1,12 +1,15 @@
 import http from '../../helpers/http';
 
 export default {
-  getNews: (token) => ({
+  getUser: (token) => ({
     type: 'GET_USER',
     payload: http(token).get('/auth/getUser'),
   }),
   updateUser: (token, data) => ({
     type: 'UPDATE_USER',
-    payload: http(token).get('/auth/getUser', data),
+    payload: http(token).post('/auth/updateUser', data),
+  }),
+  clearMessage: () => ({
+    type: 'CLEAR_MESSAGE',
   }),
 };

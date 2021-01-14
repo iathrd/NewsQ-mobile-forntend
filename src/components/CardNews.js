@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Image, StyleSheet, TouchableHighlight} from 'react-native';
-import {Card, CardItem, Thumbnail, Text, Left, Body} from 'native-base';
+import {Card, CardItem, Thumbnail, Text, Left, Body, Right} from 'native-base';
 import {API_URL} from '@env';
 import moment from 'moment';
 
@@ -21,15 +21,19 @@ export default function CardNews({
               <Left>
                 <Thumbnail
                   small
-                  source={require('../../assets/default-avatar.png')}
+                  source={
+                    data.creator.avatar === null
+                      ? require('../../assets/default-avatar.png')
+                      : {uri: `${API_URL}${data.creator.avatar}`}
+                  }
                 />
                 <Body>
                   <Text>{data.creator.username}</Text>
                 </Body>
               </Left>
-              {/* <Right>
-            <Text style={styles.creator}>Iqbal Athorid</Text>
-          </Right> */}
+              <Right>
+                <Text style={styles.min}>{data.readingTime} Menit</Text>
+              </Right>
             </CardItem>
             <CardItem style={styles.headerCard}>
               <Left>
@@ -100,5 +104,9 @@ const styles = StyleSheet.create({
   },
   timeWrapper: {
     paddingLeft: 10,
+  },
+  min: {
+    color: '#9b9b9b',
+    fontWeight: 'bold',
   },
 });

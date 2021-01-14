@@ -6,15 +6,18 @@ import ModalLoading from '../components/ModalLoading';
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import newsAction from '../redux/actions/news';
+import userAction from '../redux/actions/user';
 
 export default function Home({navigation}) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const news = useSelector((state) => state.news);
+  const user = useSelector((state) => state.user);
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
     dispatch(newsAction.getNews(token));
+    dispatch(userAction.getUser(token));
   }, []);
 
   useEffect(() => {
@@ -37,7 +40,7 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {news.isLoading && <ModalLoading modal={true} />}
+      {news.isLoading || user.isLoading ? <ModalLoading modal={true} /> : null}
       <FlatList
         data={news.news.length && news.news}
         renderItem={({item}) => (
