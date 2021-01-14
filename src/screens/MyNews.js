@@ -1,30 +1,53 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import CardMyNews from '../components/CardMyNews';
+import ModalLoading from '../components/ModalLoading';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
+//redux
+import {useSelector, useDispatch} from 'react-redux';
+import mynewsAction from '../redux/actions/mynews';
 
 export default function MyNews({navigation}) {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const myNews = useSelector((state) => state.mynews);
+  const [isRefresh, setIsRefresh] = useState(false);
+
+  useEffect(() => {
+    dispatch(mynewsAction.getMyNews(token));
+  }, []);
+
+  useEffect(() => {
+    if (myNews.refresh) {
+      setIsRefresh(false);
+    }
+  }, [myNews.refresh]);
+
+  const loadData = () => {
+    const {nextLink} = myNews.pageInfo;
+    if (nextLink) {
+      dispatch(mynewsAction.loadMyNews(token, nextLink));
+    }
+  };
+
+  const handleRefresh = () => {
+    setIsRefresh(true);
+    dispatch(mynewsAction.getMyNews(token));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      {myNews.isLoading && <ModalLoading modal={true} />}
       <FlatList
-        data={DATA}
+        data={myNews.news.length && myNews.news}
         renderItem={({item}) => (
           <CardMyNews data={item} navigation={navigation} />
         )}
+        onEndReached={loadData}
+        onEndReachedThreshold={0.4}
+        refreshing={isRefresh}
+        onRefresh={handleRefresh}
+        keyExtractor={(item) => item.id.toString()}
       />
     </SafeAreaView>
   );

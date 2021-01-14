@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {Card, CardItem, Thumbnail, Text, Left, Body, Right} from 'native-base';
+import {View, Image, StyleSheet, TouchableHighlight} from 'react-native';
+import {Card, CardItem, Thumbnail, Text, Left, Body} from 'native-base';
 import {API_URL} from '@env';
 import moment from 'moment';
 
@@ -8,56 +8,58 @@ export default function CardNews({data, navigation}) {
   return (
     <View>
       <Card>
-        <TouchableOpacity
-          activeOpacity={0.2}
+        <TouchableHighlight
+          activeOpacity={0.5}
           underlayColor="#DDDDDD"
           onPress={() => navigation.navigate('NewsDetails', {data})}
           style={styles.container}>
-          <CardItem>
-            <Left>
-              <Thumbnail
-                small
-                source={require('../../assets/default-avatar.png')}
-              />
-              <Body>
-                <Text>{data.creator.username}</Text>
-              </Body>
-            </Left>
-            {/* <Right>
+          <View>
+            <CardItem>
+              <Left>
+                <Thumbnail
+                  small
+                  source={require('../../assets/default-avatar.png')}
+                />
+                <Body>
+                  <Text>{data.creator.username}</Text>
+                </Body>
+              </Left>
+              {/* <Right>
             <Text style={styles.creator}>Iqbal Athorid</Text>
           </Right> */}
-          </CardItem>
-          <CardItem style={styles.headerCard}>
-            <Left>
-              <Text
-                style={styles.textJudul}
-                numberOfLines={3}
-                ellipsizeMode="tail">
-                {data.title}
-              </Text>
-            </Left>
-            <View style={styles.timeWrapper}>
-              <Text style={styles.time}>{moment().format('DD/MM/YYYY')}</Text>
-              <Text style={styles.time}>
-                {moment(data.createdAt).format('h:mm a')}
-              </Text>
-            </View>
-          </CardItem>
+            </CardItem>
+            <CardItem style={styles.headerCard}>
+              <Left>
+                <Text
+                  style={styles.textJudul}
+                  numberOfLines={3}
+                  ellipsizeMode="tail">
+                  {data.title}
+                </Text>
+              </Left>
+              <View style={styles.timeWrapper}>
+                <Text style={styles.time}>{moment().format('DD/MM/YYYY')}</Text>
+                <Text style={styles.time}>
+                  {moment(data.createdAt).format('h:mm a')}
+                </Text>
+              </View>
+            </CardItem>
 
-          <CardItem cardBody>
-            <Image
-              source={{uri: `${API_URL}${data.image}`}}
-              style={styles.thubNail}
-            />
-          </CardItem>
-          <CardItem style={styles.content}>
-            <View>
-              <Text numberOfLines={3} style={styles.textContent}>
-                {data.imageDescription}
-              </Text>
-            </View>
-          </CardItem>
-        </TouchableOpacity>
+            <CardItem cardBody>
+              <Image
+                source={{uri: `${API_URL}${data.image}`}}
+                style={styles.thubNail}
+              />
+            </CardItem>
+            <CardItem style={styles.content}>
+              <View>
+                <Text numberOfLines={3} style={styles.textContent}>
+                  {data.content}
+                </Text>
+              </View>
+            </CardItem>
+          </View>
+        </TouchableHighlight>
       </Card>
     </View>
   );

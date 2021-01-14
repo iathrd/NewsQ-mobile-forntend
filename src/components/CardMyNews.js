@@ -1,12 +1,14 @@
 import React from 'react';
-
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Card, Thumbnail, Body, CardItem, Text, Left} from 'native-base';
+
+import moment from 'moment';
+import {API_URL} from '@env';
 
 export default function CardMyNews({data, navigation}) {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('EditNews')}
+      onPress={() => navigation.navigate('EditNews', {data})}
       style={styles.container}>
       <Card>
         <CardItem>
@@ -16,7 +18,7 @@ export default function CardMyNews({data, navigation}) {
               source={require('../../assets/default-avatar.png')}
             />
             <Body>
-              <Text>Iqbal Athorid</Text>
+              <Text>{data.creator.username}</Text>
             </Body>
           </Left>
           {/* <Right>
@@ -26,27 +28,28 @@ export default function CardMyNews({data, navigation}) {
         <CardItem style={styles.headerCard}>
           <Left>
             <Text style={styles.textJudul} numberOfLines={3}>
-              Gubernur Banten Pakai Pfizer, Sleman Suntik dr Tirta Esok
+              {data.title}
             </Text>
           </Left>
           <View style={styles.timeWrapper}>
-            <Text style={styles.time}>08.00pm</Text>
-            <Text style={styles.time}>12-10-2020</Text>
+            <Text style={styles.time}>
+              {moment(data.createdAt).format('DD/MM/YYYY')}
+            </Text>
+            <Text style={styles.time}>
+              {moment(data.createdAt).format('h:mm a')}
+            </Text>
           </View>
         </CardItem>
         <CardItem cardBody>
           <Image
-            source={require('../../assets/default-avatar.png')}
+            source={{uri: `${API_URL}${data.image}`}}
             style={styles.thubNail}
           />
         </CardItem>
         <CardItem style={styles.content}>
           <View>
             <Text numberOfLines={3} style={styles.textContent}>
-              asdknasdnaksdabsdkbasldblasbdabsdk as jhs a sfk askjf as fla s
-              asld alf lk asdasldakskldkla klsdk lnaskdn klasndklan skldnak
-              ndlaksnlkansklnask lnkl nk ndaklsnd klanklansdk nakaklsdn klas
-              nkand jasbdbas kbdakjs bdka
+              {data.content}
             </Text>
           </View>
         </CardItem>
