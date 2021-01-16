@@ -52,7 +52,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLogin: true,
         isError: false,
         isSuccess: true,
         alertMsg: action.payload.data.message,
@@ -61,7 +60,6 @@ export default (state = initialState, action) => {
     case 'REGISTER_REJECTED': {
       return {
         ...state,
-        isLogin: false,
         isError: true,
         isSuccess: false,
         isLoading: false,

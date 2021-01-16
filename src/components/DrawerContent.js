@@ -13,7 +13,7 @@ export function DrawerContent(props) {
   const dispatch = useDispatch();
 
   const logout = () => {
-    dispatch(authAction.logOut());
+    dispatch({type: 'USER_LOGOUT'});
   };
 
   return (

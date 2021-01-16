@@ -13,8 +13,6 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: true,
         isError: false,
-        isSuccess: false,
-        alertMsg: '.',
       };
     }
     case 'GET_USER_FULFILLED': {
@@ -23,7 +21,6 @@ export default (state = initialState, action) => {
         isLoading: false,
         isError: false,
         user: action.payload.data.data,
-        isSuccess: true,
       };
     }
     case 'GET_USER_REJECTED': {
@@ -31,7 +28,6 @@ export default (state = initialState, action) => {
         ...state,
         isError: true,
         isLoading: false,
-        isSuccess: false,
         alertMsg: action.payload.response.data.message,
       };
     }
@@ -61,6 +57,34 @@ export default (state = initialState, action) => {
         isSuccess: false,
         isLoading: false,
         alertMsg: action.payload.response.data.message,
+      };
+    }
+
+    case 'UPDATE_AVATAR_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        isSuccess: false,
+        alertMsg: 'Login ...',
+      };
+    }
+    case 'UPDATE_AVATAR_FULFILLED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isSuccess: true,
+        alertMsg: 'Update avatar succesfully!',
+      };
+    }
+    case 'UPDATE_AVATAR_REJECTED': {
+      return {
+        ...state,
+        isError: true,
+        isSuccess: false,
+        isLoading: false,
+        alertMsg: 'Update avatar failed!',
       };
     }
 

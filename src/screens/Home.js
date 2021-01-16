@@ -6,6 +6,7 @@ import ModalLoading from '../components/ModalLoading';
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import newsAction from '../redux/actions/news';
+import userAction from '../redux/actions/user';
 
 export default function Home({navigation}) {
   const dispatch = useDispatch();
@@ -14,7 +15,11 @@ export default function Home({navigation}) {
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    dispatch(newsAction.getNews(token));
+    const getData = async () => {
+      await dispatch(userAction.getUser(token));
+      await dispatch(newsAction.getNews(token));
+    };
+    getData();
   }, []);
 
   useEffect(() => {

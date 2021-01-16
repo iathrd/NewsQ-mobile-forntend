@@ -9,22 +9,12 @@ import ModalLoading from '../components/ModalLoading';
 //redux
 import {useDispatch, useSelector} from 'react-redux';
 import authAction from '../redux/actions/auth';
-import userAction from '../redux/actions/user';
+
 import user from '../redux/actions/user';
 
 export default function Login({navigation}) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.auth.token);
-
-  useEffect(() => {
-    const getUser = async () => {
-      if (auth.isLogin) {
-        await dispatch(userAction.getUser(token))
-      }
-    };
-    getUser();
-  }, [auth.isLogin]);
 
   const doLogin = (data) => {
     dispatch(authAction.doLogin(data));
@@ -36,7 +26,6 @@ export default function Login({navigation}) {
 
   return (
     <View style={styles.container}>
-      {user.isLoading && <ModalLoading modal={user.isLoading} />}
       {auth.isError && (
         <ModalError
           modal={true}

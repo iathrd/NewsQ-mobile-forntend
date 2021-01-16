@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import {Thumbnail, Button, Item, Input, Label, Spinner} from 'native-base';
 import {Formik} from 'formik';
@@ -6,6 +6,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Modal from 'react-native-modal';
 import ModalSucces from '../components/ModalSuccess';
 import ModalError from '../components/ModalError';
+import ModalLoading from '../components/ModalLoading';
 
 import {useSelector, useDispatch} from 'react-redux';
 import userAction from '../redux/actions/user';
@@ -21,7 +22,13 @@ export default function MyProfile() {
   const [modal, setModal] = useState(false);
   const [image, setImage] = useState({uri: '', name: '', type: ''});
   const [displayImage, setDispayImage] = useState();
-  const cobba = new FormData();
+  // const cobba = new FormData();
+
+  useEffect(() => {
+    if (user.isSuccess) {
+      dispatch(userAction.getUser(token));
+    }
+  }, [user.isSuccess]);
 
   const handleModal = () => {
     setModal(!modal);
@@ -42,12 +49,14 @@ export default function MyProfile() {
       } else if (response.error) {
         console.log(response.error);
       } else {
-        setDispayImage(response.uri);
-        setImage({
+        // setDispayImage(response.uri);
+        const img = new FormData();
+        img.append('avatar', {
           uri: response.uri,
           name: response.fileName,
           type: response.type,
         });
+        dispatch(userAction.updateAvatar(token, img));
       }
     });
   };
@@ -77,15 +86,20 @@ export default function MyProfile() {
   };
 
   const saveUser = (values) => {
-    cobba.append('avatar', image);
-    cobba.append('username', values.username);
-    cobba.append('email', values.password);
-
-    dispatch(userAction.updateUser(token, cobba));
+    const input = new FormData();
+    if (values.email !== user.user.email) {
+      input.append('username', values.username);
+      input.append('email', values.password);
+      dispatch(userAction.updateUser(token, input));
+    } else {
+      input.append('username', values.username);
+      dispatch(userAction.updateUser(token, input));
+    }
   };
 
   return (
     <View style={styles.container}>
+      {user.isLoading && <ModalLoading modal={user.isLoading} />}
       {user.isSuccess && (
         <ModalSucces
           modal={user.isSuccess}
@@ -104,7 +118,7 @@ export default function MyProfile() {
         <Modal
           onBackButtonPress={closeModal}
           onBackdropPress={closeModal}
-          animationInTiming={500}
+          animationInTiming={300}
           animationOutTiming={300}
           isVisible={modal}>
           <View style={styles.modalWrapper}>
@@ -207,11 +221,7 @@ export default function MyProfile() {
               </View>
               <View style={styles.btnWrapper2}>
                 <Button onPress={handleSubmit} style={styles.btnSave} info>
-                  {user.isLoading ? (
-                    <Spinner color="white" size={30} />
-                  ) : (
-                    <Text style={styles.textSave}>Save</Text>
-                  )}
+                  <Text style={styles.textSave}>Save</Text>
                 </Button>
               </View>
             </>
