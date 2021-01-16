@@ -11,15 +11,11 @@ export default function Home({navigation}) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const news = useSelector((state) => state.news);
-  const user = useSelector((state) => state.user);
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
       dispatch(newsAction.getNews(token));
-    });
-    return unsubscribe;
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     if (news.refresh) {

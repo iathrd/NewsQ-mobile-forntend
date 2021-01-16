@@ -25,15 +25,18 @@ export default function Register({navigation}) {
     dispatch(authAction.clearMessage());
   };
 
-  const createRegister = (data) => {
-    dispatch(authAction.register(data));
+  const createRegister = async (data, resetForm) => {
+    const {action} = await dispatch(authAction.register(data));
+    if (action.payload.response.data.success) {
+      resetForm({});
+    }
   };
 
   return (
     <View style={styles.container}>
       {registerr.isSuccess && (
         <ModalSuccess
-          modal={true}
+          modal={registerr.isSuccess}
           closeModal={closeModal}
           message={registerr.alertMsg}
         />
@@ -41,7 +44,7 @@ export default function Register({navigation}) {
 
       {registerr.isError && (
         <ModalError
-          modal={true}
+          modal={registerr.isError}
           closeModal={closeModalError}
           message={registerr.alertMsg}
         />
@@ -51,7 +54,7 @@ export default function Register({navigation}) {
         <Formik
           initialValues={{username: '', email: '', password: ''}}
           validationSchema={register}
-          onSubmit={(values) => createRegister(values)}>
+          onSubmit={(values, {resetForm}) => createRegister(values, resetForm)}>
           {({
             values,
             handleBlur,

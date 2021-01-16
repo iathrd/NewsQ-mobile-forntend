@@ -1,5 +1,5 @@
 const initialState = {
-  isLogin: true,
+  isLogin: false,
   token: '',
   isLoading: false,
   isError: false,
@@ -13,6 +13,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+        isLogin: false,
         isError: false,
         isSuccess: false,
         alertMsg: 'Login ...',

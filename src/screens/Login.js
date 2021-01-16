@@ -19,12 +19,12 @@ export default function Login({navigation}) {
 
   useEffect(() => {
     const getUser = async () => {
-      if (auth.isSuccess) {
-        await dispatch(userAction.getUser(token));
+      if (auth.isLogin) {
+        await dispatch(userAction.getUser(token))
       }
     };
     getUser();
-  }, [auth.isSuccess]);
+  }, [auth.isLogin]);
 
   const doLogin = (data) => {
     dispatch(authAction.doLogin(data));
@@ -65,7 +65,7 @@ export default function Login({navigation}) {
               </View>
               <View>
                 <Label>Password</Label>
-                <Item regular>
+                <Item style={styles.item} regular>
                   <Input
                     style={styles.item}
                     secureTextEntry

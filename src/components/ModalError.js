@@ -9,7 +9,7 @@ export default function ModalError({modal, closeModal, message}) {
       <Modal
         onBackButtonPress={closeModal}
         onBackdropPress={closeModal}
-        animationInTiming={500}
+        animationInTiming={300}
         animationOutTiming={300}
         isVisible={modal}>
         <View style={styles.modalWrapper}>
