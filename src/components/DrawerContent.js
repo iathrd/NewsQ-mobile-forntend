@@ -2,6 +2,11 @@ import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Thumbnail} from 'native-base';
+import {
+  useLinkBuilder,
+  DrawerActions,
+  CommonActions,
+} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,6 +17,19 @@ export function DrawerContent(props) {
   const user = useSelector((state) => state.user.user);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+  const {
+    state,
+    navigation,
+    descriptors,
+    activeTintColor,
+    inactiveTintColor,
+    activeBackgroundColor,
+    inactiveBackgroundColor,
+    itemStyle,
+    labelStyle,
+  } = props;
+  const datas = props.state.routes.slice(1);
+  const buildLink = useLinkBuilder();
 
   useEffect(() => {
     dispatch(userAction.getUser(token));
@@ -59,58 +77,52 @@ export function DrawerContent(props) {
           </View>
         </View>
         <View style={{marginTop: 20}}>
-          <View>
-            <DrawerItem
-              label="Home"
-              icon={({color, size, focused}) => (
-                <Icon
-                  name={focused ? 'home-sharp' : 'md-home-outline'}
-                  size={size}
-                  color={color}
+          {props.state.routes
+            .filter((data) => data.name !== 'My Profile')
+            .map((route, i) => {
+              const focused = i - 1 === state.index - 2;
+              const {title, drawerLabel, drawerIcon} = descriptors[
+                route.key
+              ].options;
+              return (
+                <DrawerItem
+                  key={route.key}
+                  label={
+                    drawerLabel !== undefined
+                      ? drawerLabel
+                      : title !== undefined
+                      ? title
+                      : route.name
+                  }
+                  icon={drawerIcon}
+                  focused={focused}
+                  activeTintColor={activeTintColor}
+                  inactiveTintColor={inactiveTintColor}
+                  activeBackgroundColor={activeBackgroundColor}
+                  inactiveBackgroundColor={inactiveBackgroundColor}
+                  labelStyle={labelStyle}
+                  style={itemStyle}
+                  to={buildLink(route.name, route.params)}
+                  onPress={() => {
+                    navigation.dispatch({
+                      ...(focused
+                        ? DrawerActions.closeDrawer()
+                        : CommonActions.navigate(route.name)),
+                      target: state.key,
+                    });
+                  }}
                 />
-              )}
-              onPress={() => {
-                props.navigation.navigate('Home');
-              }}
-            />
-          </View>
-          <View>
-            <DrawerItem
-              label="My News"
-              icon={({color, size, focused}) => (
-                <Icon
-                  name={focused ? 'newspaper' : 'newspaper-outline'}
-                  size={size}
-                  color={color}
-                />
-              )}
-              onPress={() => {
-                props.navigation.navigate('My News');
-              }}
-            />
-          </View>
-          <View>
-            <DrawerItem
-              label="Upload News"
-              icon={({color, size, focused}) => (
-                <Icon
-                  name={focused ? 'newspaper' : 'newspaper'}
-                  size={size}
-                  color={color}
-                />
-              )}
-              onPress={() => {
-                props.navigation.navigate('Upload News');
-              }}
-            />
-          </View>
+              );
+            })}
           <View>
             <DrawerItem
               onPress={logout}
               label="Logout"
+              activeTintColor="#2196F3"
+              inactiveTintColor="#9b9b9b"
               icon={({color, size, focused}) => (
                 <Icon
-                  name={focused ? 'exit' : 'exit-outline'}
+                  name={focused ? 'exit' : 'ios-exit'}
                   size={size}
                   color={color}
                 />
