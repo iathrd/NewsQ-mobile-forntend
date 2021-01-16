@@ -22,7 +22,10 @@ export default {
     type: 'CREATE_NEWS',
     payload: http(token).post('news/createNews', data),
   }),
-  clearMessage: () => ({
-    type: 'CLEAR_MESSAGE',
+  clearSuccess: () => ({
+    type: 'CLEAR_SUCCESS_MESSAGE',
+  }),
+  clearError: () => ({
+    type: 'CLEAR_ERROR_MESSAGE',
   }),
 };

@@ -1,5 +1,4 @@
 import http from '../../helpers/http';
-import qs from 'querystring';
 
 export default {
   getNews: (token) => ({
@@ -19,5 +18,11 @@ export default {
   loadNews2: (token, api) => ({
     type: 'LOAD_NEWS2',
     payload: http(token).get(api),
+  }),
+  clearError: () => ({
+    type: 'CLEAR_MESSAGE_ERROR',
+  }),
+  clearSuccess: () => ({
+    type: "'CLEAR_MESSAGE_SUCCESS",
   }),
 };

@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {Formik} from 'formik';
-import {Item, Input, Label, Button, Spinner} from 'native-base';
+import {Item, Input, Label, Button} from 'native-base';
 import {launchImageLibrary} from 'react-native-image-picker';
-import ModalLoading from '../components/ModalLoading';
-import ModalSuccess from '../components/ModalSuccess';
-import ModalError from '../components/ModalError';
 
 import {editNews, createNews} from '../helpers/validations';
 import {API_URL} from '@env';
@@ -61,15 +58,6 @@ export default function FormNews({
     });
   };
 
-  const closeModal = () => {
-    dispatch(editAction.clearMessage());
-    setImage(undefined);
-  };
-
-  const closeModal2 = () => {
-    dispatch(editAction.clearMessage());
-  };
-
   const uploadFile = () => {
     if (form !== undefined) {
       dispatch(editAction.uploadImage(token, data.id, form));
@@ -93,22 +81,7 @@ export default function FormNews({
   };
 
   return (
-    <View>
-      {news.isLoading && <ModalLoading modal={news.isLoading} />}
-      {news.isSuccess && (
-        <ModalSuccess
-          modal={news.isSuccess}
-          closeModal={closeModal}
-          message={news.alertMsg}
-        />
-      )}
-      {news.isError && (
-        <ModalError
-          modal={news.isError}
-          closeModal={closeModal2}
-          message={news.alertMsg}
-        />
-      )}
+    <View style={{backgroundColor: 'transparent'}}>
       <Formik
         initialValues={{
           content: data.content || '',
@@ -130,22 +103,6 @@ export default function FormNews({
           touched,
         }) => (
           <>
-            <View style={styles.inputWrapper}>
-              <Label style={styles.labelText}>Title</Label>
-              <Item regular>
-                <Input
-                  multiline
-                  placeholder="Input title"
-                  name="title"
-                  onChangeText={handleChange('title')}
-                  onBlur={handleBlur('title')}
-                  value={values.title}
-                />
-              </Item>
-              {errors.title && touched.title && (
-                <Text style={styles.textError}>{errors.title}</Text>
-              )}
-            </View>
             <View style={styles.imageWrapper}>
               <Item>
                 <TouchableHighlight
@@ -171,9 +128,28 @@ export default function FormNews({
                 </TouchableHighlight>
               </Item>
               {errors.image && touched.imageDescription && (
-                <Text style={{color: 'red'}}>{errors.image}</Text>
+                <Text style={styles.textError}>{errors.image}</Text>
               )}
             </View>
+            <View style={styles.inputWrapper}>
+              <Label style={styles.labelText}>Title</Label>
+              <Item regular>
+                <Input
+                  multiline
+                  placeholder="Input title"
+                  name="title"
+                  onChangeText={handleChange('title')}
+                  placeholderTextColor="#9b9b9b"
+                  style={styles.input}
+                  onBlur={handleBlur('title')}
+                  value={values.title}
+                />
+              </Item>
+              {errors.title && touched.title && (
+                <Text style={styles.textError}>{errors.title}</Text>
+              )}
+            </View>
+
             <View style={styles.inputWrapper}>
               <Label style={styles.labelText}>Image Description</Label>
               <Item regular>
@@ -181,6 +157,8 @@ export default function FormNews({
                   multiline
                   placeholder="Input description"
                   name="imageDescription"
+                  style={styles.input}
+                  placeholderTextColor="#9b9b9b"
                   onChangeText={handleChange('imageDescription')}
                   onBlur={handleBlur('imageDescription')}
                   value={values.imageDescription}
@@ -197,6 +175,8 @@ export default function FormNews({
                   multiline
                   placeholder="Input description"
                   name="content"
+                  placeholderTextColor="#9b9b9b"
+                  style={styles.input}
                   onChangeText={handleChange('content')}
                   onBlur={handleBlur('content')}
                   value={values.content}
@@ -212,11 +192,7 @@ export default function FormNews({
                 onPress={handleSubmit}
                 style={styles.btnUpload}
                 info>
-                {news.isLoading ? (
-                  <Spinner color="white" size={30} />
-                ) : (
-                  <Text>Upload</Text>
-                )}
+                <Text style={styles.btnText}>Upload</Text>
               </Button>
             </View>
           </>
@@ -246,11 +222,12 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   imageWrapper: {
-    marginBottom: 5,
+    marginBottom: 30,
   },
   btnWrapper: {
     alignSelf: 'flex-end',
     marginBottom: 50,
+    marginRight: '7%',
   },
   btnUpload: {
     paddingLeft: 30,
@@ -263,8 +240,16 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   labelText: {
-    color: '#9b9b9b',
-    fontWeight: 'bold',
+    color: 'black',
+    fontSize: 17,
     marginLeft: 5,
+  },
+  input: {
+    fontSize: 16,
+  },
+  btnText: {
+    color: 'white',
+    textTransform:'uppercase',
+    fontWeight:'bold'
   },
 });

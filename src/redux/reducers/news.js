@@ -4,6 +4,8 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
+  clearMessage: false,
+  clearError: false,
   alertMsg: '',
   isLoadData: false,
   pageInfo: {},
@@ -21,6 +23,7 @@ export default (state = initialState, action) => {
         isSuccess: false,
         alertMsg: '',
         refresh: false,
+        clearMessage: false,
       };
     }
     case 'GET_NEWS_FULFILLED': {
@@ -32,6 +35,7 @@ export default (state = initialState, action) => {
         news: action.payload.data.data,
         pageInfo: action.payload.data.pageInfo,
         refresh: true,
+        clearMessage: false,
       };
     }
     case 'GET_NEWS_REJECTED': {
@@ -41,6 +45,7 @@ export default (state = initialState, action) => {
         isLoading: false,
         alertMsg: action.payload.response.data.message,
         refresh: false,
+        clearMessage: false,
       };
     }
 
@@ -51,6 +56,7 @@ export default (state = initialState, action) => {
         isError: false,
         isSuccess: false,
         alertMsg: '',
+        clearMessage: false,
       };
     }
     case 'LOAD_NEWS_FULFILLED': {
@@ -61,6 +67,7 @@ export default (state = initialState, action) => {
         isSuccess: true,
         news: [...state.news, ...action.payload.data.data],
         pageInfo: {...action.payload.data.pageInfo},
+        clearMessage: false,
       };
     }
     case 'LOAD_NEWS_REJECTED': {
@@ -69,6 +76,7 @@ export default (state = initialState, action) => {
         isError: true,
         isLoadData: false,
         alertMsg: action.payload.response.data.message,
+        clearMessage: false,
       };
     }
 
@@ -80,6 +88,7 @@ export default (state = initialState, action) => {
         isSuccess: false,
         alertMsg: '',
         refresh: false,
+        clearMessage: false,
       };
     }
     case 'SEARCH_NEWS_FULFILLED': {
@@ -91,6 +100,7 @@ export default (state = initialState, action) => {
         searchNews: action.payload.data.data,
         pageInfo2: action.payload.data.pageInfo,
         refresh: true,
+        clearMessage: false,
       };
     }
     case 'SEARCH_NEWS_REJECTED': {
@@ -100,6 +110,7 @@ export default (state = initialState, action) => {
         isLoading: false,
         alertMsg: action.payload.response.data.message,
         refresh: false,
+        clearMessage: false,
       };
     }
 
@@ -110,6 +121,7 @@ export default (state = initialState, action) => {
         isError: false,
         isSuccess: false,
         alertMsg: '',
+        clearMessage: false,
       };
     }
     case 'LOAD_NEWS2_FULFILLED': {
@@ -120,6 +132,7 @@ export default (state = initialState, action) => {
         isSuccess: true,
         searchNews: [...state.news, ...action.payload.data.data],
         pageInfo2: {...action.payload.data.pageInfo},
+        clearMessage: false,
       };
     }
     case 'LOAD_NEWS2_REJECTED': {
@@ -128,13 +141,40 @@ export default (state = initialState, action) => {
         isError: true,
         isLoading: false,
         alertMsg: action.payload.response.data.message,
+        clearMessage: false,
       };
     }
 
-    case 'CLEAR_MESSAGE': {
+    case 'CLEAR_MESSAGE_SUCCESS': {
       return {
         ...state,
+        clearMessage: true,
         isSuccess: false,
+        alertMsg: '',
+      };
+    }
+
+    case 'CLEAR_MESSAGE_SUCCESS': {
+      return {
+        ...state,
+        clearMessage: true,
+        isSuccess: false,
+        alertMsg: '',
+      };
+    }
+
+    case 'CLEAR_MESSAGE_SUCCESS': {
+      return {
+        ...state,
+        clearMessage: true,
+        isSuccess: false,
+        alertMsg: '',
+      };
+    }
+    case 'CLEAR_MESSAGE_ERROR': {
+      return {
+        ...state,
+        clearError: true,
         isError: false,
         alertMsg: '',
       };

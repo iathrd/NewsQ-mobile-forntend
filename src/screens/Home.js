@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, FlatList, StyleSheet, RefreshControl} from 'react-native';
+import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
 import CardNews from '../components/CardNews';
 import ModalLoading from '../components/ModalLoading';
 
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import newsAction from '../redux/actions/news';
-import userAction from '../redux/actions/user';
 
 export default function Home({navigation}) {
   const dispatch = useDispatch();
@@ -16,13 +15,11 @@ export default function Home({navigation}) {
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    const getData = async () => {
-      await dispatch(userAction.getUser(token));
+    const unsubscribe = navigation.addListener('focus', () => {
       dispatch(newsAction.getNews(token));
-    };
-
-    getData();
-  }, []);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     if (news.refresh) {
@@ -44,7 +41,7 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {news.isLoading || user.isLoading ? <ModalLoading modal={true} /> : null}
+      {news.isLoading && <ModalLoading modal={news.isLoading} />}
       <FlatList
         data={news.news.length && news.news}
         renderItem={({item}) => (

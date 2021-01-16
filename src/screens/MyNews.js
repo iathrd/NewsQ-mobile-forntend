@@ -14,8 +14,11 @@ export default function MyNews({navigation}) {
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    dispatch(mynewsAction.getMyNews(token));
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(mynewsAction.getMyNews(token));
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     if (myNews.refresh) {
@@ -37,7 +40,7 @@ export default function MyNews({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {myNews.isLoading && <ModalLoading modal={true} />}
+      {myNews.isLoading && <ModalLoading modal={myNews.isLoading} />}
       <FlatList
         data={myNews.news.length && myNews.news}
         renderItem={({item}) => (

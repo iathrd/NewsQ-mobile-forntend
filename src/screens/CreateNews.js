@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import FormNews from '../components/FormNews';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -7,26 +7,37 @@ import ModalSuccess from '../components/ModalSuccess';
 import ModalError from '../components/ModalError';
 import newsAction from '../redux/actions/mynews';
 
-export default function CreateNews() {
+export default function CreateNews({navigation}) {
   const dispatch = useDispatch();
   const news = useSelector((state) => state.mynews);
 
-  const closeModal = () => {
-    dispatch(newsAction.clearMessage());
+  useEffect(() => {
+    if (news.clearSuccess) {
+      navigation.goBack();
+    }
+  }, [news.clearSuccess]);
+
+  const closeModalSuccess = () => {
+    dispatch(newsAction.clearSuccess());
   };
+
+  const closeModalError = () => {
+    dispatch(newsAction.clearSuccess());
+  };
+
   return (
-    <ScrollView>
+    <ScrollView style={styles.parentView}>
       {news.isSuccess && (
         <ModalSuccess
           modal={news.isSuccess}
-          closeModal={closeModal}
+          closeModal={closeModalSuccess}
           message={news.alertMsg}
         />
       )}
       {news.isError && (
         <ModalError
           modal={news.isError}
-          closeModal={closeModal}
+          closeModal={closeModalError}
           message={news.alertMsg}
         />
       )}
@@ -43,5 +54,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: '15%',
+  },
+  parentView: {
+    backgroundColor: 'white',
   },
 });

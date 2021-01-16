@@ -3,6 +3,8 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
+  clearSuccess: false,
+  clearError: false,
   alertMsg: '',
   uploadImage: false,
   pageInfo: {},
@@ -14,6 +16,8 @@ export default (state = initialState, action) => {
     case 'GET_MYNEWS_PENDING': {
       return {
         ...state,
+        clearSuccess: false,
+        clearError: false,
         isLoading: true,
         isError: false,
         isSuccess: false,
@@ -44,6 +48,8 @@ export default (state = initialState, action) => {
     case 'LOAD_MYNEWS_PENDING': {
       return {
         ...state,
+        clearSuccess: false,
+        clearError: false,
         isLoading: true,
         isError: false,
         isSuccess: false,
@@ -72,6 +78,8 @@ export default (state = initialState, action) => {
     case 'UPDATE_NEWS_PENDING': {
       return {
         ...state,
+        clearSuccess: false,
+        clearError: false,
         isLoading: true,
         isError: false,
         isSuccess: false,
@@ -99,6 +107,8 @@ export default (state = initialState, action) => {
     case 'UPLOAD_IMAGE_PENDING': {
       return {
         ...state,
+        clearSuccess: false,
+        clearError: false,
         isLoading: true,
         isError: false,
         isSuccess: false,
@@ -129,6 +139,8 @@ export default (state = initialState, action) => {
     case 'CREATE_NEWS_PENDING': {
       return {
         ...state,
+        clearSuccess: false,
+        clearError: false,
         isLoading: true,
         isError: false,
         isSuccess: false,
@@ -153,10 +165,19 @@ export default (state = initialState, action) => {
       };
     }
 
-    case 'CLEAR_MESSAGE': {
+    case 'CLEAR_SUCCESS_MESSAGE': {
       return {
         ...state,
+        clearSuccess: true,
         isSuccess: false,
+        alertMsg: '',
+      };
+    }
+
+    case 'CLEAR_ERROR_MESSAGE': {
+      return {
+        ...state,
+        clearError: true,
         isError: false,
         alertMsg: '',
       };
