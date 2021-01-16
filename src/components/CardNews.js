@@ -10,14 +10,14 @@ export default function CardNews({
 }) {
   return (
     <View>
-      <Card>
+      <Card style={styles.radius}>
         <TouchableHighlight
           activeOpacity={0.5}
           underlayColor="#DDDDDD"
           onPress={() => navigation.navigate('NewsDetails', {data})}
           style={styles.container}>
           <View>
-            <CardItem>
+            <CardItem style={styles.radius}>
               <Left>
                 <Thumbnail
                   small
@@ -76,6 +76,12 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 5,
     paddingRight: 5,
+    borderTopRightRadius: 13,
+    borderTopLeftRadius: 13,
+  },
+  radius: {
+    borderTopRightRadius: 13,
+    borderTopLeftRadius: 13,
   },
   content: {
     paddingLeft: 8,

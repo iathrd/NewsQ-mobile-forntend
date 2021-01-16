@@ -89,5 +89,6 @@ const styles = StyleSheet.create({
   },
   scView: {
     flex: 1,
+    backgroundColor: 'white',
   },
 });

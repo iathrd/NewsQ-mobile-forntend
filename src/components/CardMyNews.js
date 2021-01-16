@@ -10,8 +10,8 @@ export default function CardMyNews({data, navigation}) {
     <TouchableOpacity
       onPress={() => navigation.navigate('EditNews', {data, gg: 'edit'})}
       style={styles.container}>
-      <Card>
-        <CardItem>
+      <Card style={styles.radius}>
+        <CardItem style={styles.radius}>
           <Left>
             <Thumbnail
               small
@@ -66,12 +66,18 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 5,
     paddingRight: 5,
+    borderTopRightRadius: 13,
+    borderTopLeftRadius: 13,
   },
   content: {
     paddingLeft: 8,
     paddingTop: 5,
     paddingBottom: 7,
     paddingRight: 8,
+  },
+  radius: {
+    borderTopRightRadius: 13,
+    borderTopLeftRadius: 13,
   },
   textContent: {
     color: '#9b9b9b',
