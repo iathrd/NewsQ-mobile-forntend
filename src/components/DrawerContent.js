@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Thumbnail} from 'native-base';
@@ -6,11 +6,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {API_URL} from '@env';
-import authAction from '../redux/actions/auth';
+import userAction from '../redux/actions/user';
 
 export function DrawerContent(props) {
   const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userAction.getUser(token));
+  }, []);
 
   const logout = () => {
     dispatch({type: 'USER_LOGOUT'});

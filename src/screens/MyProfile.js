@@ -20,9 +20,6 @@ export default function MyProfile() {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.auth.token);
   const [modal, setModal] = useState(false);
-  const [image, setImage] = useState({uri: '', name: '', type: ''});
-  const [displayImage, setDispayImage] = useState();
-  // const cobba = new FormData();
 
   useEffect(() => {
     if (user.isSuccess) {
@@ -156,11 +153,7 @@ export default function MyProfile() {
           <Thumbnail
             source={
               user.user.avatar === null
-                ? displayImage !== undefined
-                  ? {uri: displayImage}
-                  : require('../../assets/default-avatar.png')
-                : displayImage !== undefined
-                ? {uri: displayImage}
+                ? require('../../assets/default-avatar.png')
                 : {uri: `${API_URL}${user.user.avatar}`}
             }
           />
@@ -177,7 +170,11 @@ export default function MyProfile() {
       </View>
       <View>
         <Formik
-          initialValues={{username: user.user.username, email: user.user.email}}
+          initialValues={{
+            username:
+              user.user.username !== undefined ? user.user.username : '',
+            email: user.user.email !== undefined ? user.user.email : '',
+          }}
           validationSchema={editProfile}
           enableReinitialize
           onSubmit={(values) => saveUser(values)}>
