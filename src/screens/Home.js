@@ -16,8 +16,12 @@ export default function Home({navigation}) {
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    dispatch(newsAction.getNews(token));
-    dispatch(userAction.getUser(token));
+    const getData = async () => {
+      await dispatch(userAction.getUser(token));
+      dispatch(newsAction.getNews(token));
+    };
+
+    getData();
   }, []);
 
   useEffect(() => {

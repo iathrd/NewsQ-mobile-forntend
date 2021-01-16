@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
         isLoading: true,
         isError: false,
         isSuccess: false,
-        alertMsg: 'Login ...',
+        alertMsg: '.',
       };
     }
     case 'GET_USER_FULFILLED': {
@@ -31,6 +31,7 @@ export default (state = initialState, action) => {
         ...state,
         isError: true,
         isLoading: false,
+        isSuccess: false,
         alertMsg: action.payload.response.data.message,
       };
     }

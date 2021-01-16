@@ -9,13 +9,13 @@ export default function ModalError({modal, closeModal, message}) {
       <Modal
         onBackButtonPress={closeModal}
         onBackdropPress={closeModal}
-        animationInTiming={500}
+        animationInTiming={300}
         animationOutTiming={300}
         isVisible={modal}>
         <View style={styles.modalWrapper}>
           <View style={styles.modalContent}>
             <View style={styles.modalLabelWrapper}>
-              <Spinner size={90} color="rgb(34, 167, 240)"/>
+              <Spinner size={90} color="rgb(34, 167, 240)" />
             </View>
             <View>
               <Text style={styles.textMessage}>Please wait .....</Text>
@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    height: '45%',
+    height: '30%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
     paddingTop: 20,
     paddingBottom: 20,
   },
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
   textMessage: {
     fontSize: 19,
     fontWeight: 'bold',
-    color:'#9b9b9b'
+    color: '#9b9b9b',
   },
 });

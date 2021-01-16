@@ -5,6 +5,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   alertMsg: '',
+  isLoadData: false,
   pageInfo: {},
   pageInfo2: {},
   refresh: false,
@@ -46,7 +47,7 @@ export default (state = initialState, action) => {
     case 'LOAD_NEWS_PENDING': {
       return {
         ...state,
-        isLoading: true,
+        isLoadData: true,
         isError: false,
         isSuccess: false,
         alertMsg: '',
@@ -55,7 +56,7 @@ export default (state = initialState, action) => {
     case 'LOAD_NEWS_FULFILLED': {
       return {
         ...state,
-        isLoading: false,
+        isLoadData: false,
         isError: false,
         isSuccess: true,
         news: [...state.news, ...action.payload.data.data],
@@ -66,7 +67,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isError: true,
-        isLoading: false,
+        isLoadData: false,
         alertMsg: action.payload.response.data.message,
       };
     }
