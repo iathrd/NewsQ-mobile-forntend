@@ -31,7 +31,7 @@ export default function EditNews({route, navigation}) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.parent}>
       {news.isLoading && <ModalLoading modal={news.isLoading} />}
       {news.isSuccess && (
         <ModalSuccess
@@ -60,5 +60,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: '15%',
+  },
+  parent: {
+    backgroundColor: 'white',
   },
 });

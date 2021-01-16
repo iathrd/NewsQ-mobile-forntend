@@ -14,7 +14,7 @@ export default function Home({navigation}) {
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-      dispatch(newsAction.getNews(token));
+    dispatch(newsAction.getNews(token));
   }, []);
 
   useEffect(() => {

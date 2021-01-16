@@ -104,7 +104,7 @@ export default function FormNews({
         }) => (
           <>
             <View style={styles.imageWrapper}>
-              <Item>
+              <Item style={styles.imageItem}>
                 <TouchableHighlight
                   activeOpacity={0.6}
                   underlayColor="#DDDDDD"
@@ -133,7 +133,7 @@ export default function FormNews({
             </View>
             <View style={styles.inputWrapper}>
               <Label style={styles.labelText}>Title</Label>
-              <Item regular>
+              <Item style={styles.itemINput} regular>
                 <Input
                   multiline
                   placeholder="Input title"
@@ -152,7 +152,7 @@ export default function FormNews({
 
             <View style={styles.inputWrapper}>
               <Label style={styles.labelText}>Image Description</Label>
-              <Item regular>
+              <Item style={styles.itemINput} regular>
                 <Input
                   multiline
                   placeholder="Input description"
@@ -170,7 +170,7 @@ export default function FormNews({
             </View>
             <View style={styles.inputWrapper}>
               <Label style={styles.labelText}>Content</Label>
-              <Item regular>
+              <Item style={styles.itemINput} regular>
                 <Input
                   multiline
                   placeholder="Input description"
@@ -217,12 +217,17 @@ const styles = StyleSheet.create({
     height: 200,
     width: '100%',
     resizeMode: 'cover',
+    borderRadius: 5,
   },
   inputWrapper: {
     marginBottom: 30,
   },
   imageWrapper: {
     marginBottom: 30,
+    borderRadius: 5,
+  },
+  imageItem: {
+    borderRadius: 5,
   },
   btnWrapper: {
     alignSelf: 'flex-end',
@@ -249,7 +254,10 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: 'white',
-    textTransform:'uppercase',
-    fontWeight:'bold'
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+  },
+  itemINput: {
+    borderRadius: 5,
   },
 });
