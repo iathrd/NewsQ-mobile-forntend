@@ -22,11 +22,16 @@ export default function CardMyNews({data, navigation}) {
               }
             />
             <Body>
-              <Text>{data.creator.username}</Text>
+              <Text numberOfLines={1}>{data.creator.username}</Text>
             </Body>
           </Left>
           <Right>
-            <Text style={styles.min}>{data.readingTime} Menit</Text>
+            <Text style={styles.time}>
+              {moment(data.createdAt).format('DD/MM/YYYY')}
+            </Text>
+            <Text style={styles.time}>
+              {moment(data.createdAt).format('h:mm a')}
+            </Text>
           </Right>
         </CardItem>
         <CardItem style={styles.headerCard}>
@@ -36,12 +41,7 @@ export default function CardMyNews({data, navigation}) {
             </Text>
           </Left>
           <View style={styles.timeWrapper}>
-            <Text style={styles.time}>
-              {moment(data.createdAt).format('DD/MM/YYYY')}
-            </Text>
-            <Text style={styles.time}>
-              {moment(data.createdAt).format('h:mm a')}
-            </Text>
+            <Text style={styles.min}>{data.readingTime} Menit</Text>
           </View>
         </CardItem>
         <CardItem cardBody>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   min: {
-    color: '#9b9b9b',
-    fontWeight: 'bold',
+    color: '#2196F3',
+    fontSize: 12,
   },
 });

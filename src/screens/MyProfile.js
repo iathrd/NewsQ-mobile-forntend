@@ -206,7 +206,7 @@ export default function MyProfile() {
                 )}
               </View>
               <View style={styles.btnWrapper2}>
-                <Button onPress={handleSubmit} style={styles.btnSave}>
+                <Button onPress={handleSubmit} style={styles.btnSave} info>
                   {user.isLoading ? (
                     <Spinner color="white" size={30} />
                   ) : (
@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 20,
+    backgroundColor: 'white',
   },
   label: {
     fontSize: 20,
@@ -252,11 +253,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   btnSave: {
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
     borderRadius: 5,
-    marginTop: 30,
-    backgroundColor: '#0e9938',
+    marginTop: '10%',
+    marginRight: '5%',
   },
   textSave: {
     color: 'white',
