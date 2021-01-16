@@ -45,10 +45,10 @@ export default function Main() {
           drawerContentOptions={{
             activeTintColor: '#2196F3',
             inactiveTintColor: '#9b9b9b',
+            labelStyle: {fontWeight: 'bold'},
           }}
           drawerContent={(props) => <DrawerContent {...props} />}
           initialRouteName="Home">
-          <Drawer.Screen name="My Profile" component={MyProfileStack} />
           <Drawer.Screen
             options={{
               drawerIcon: ({color, size}) => (
@@ -76,6 +76,15 @@ export default function Main() {
             }}
             name="Upload News"
             component={CreateNewsStack}
+          />
+          <Drawer.Screen
+            options={{
+              drawerIcon: ({color, size}) => (
+                <Icon name="person" color={color} size={size} />
+              ),
+            }}
+            name="My Profile"
+            component={MyProfileStack}
           />
         </Drawer.Navigator>
       )}

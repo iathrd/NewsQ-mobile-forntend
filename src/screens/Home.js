@@ -11,6 +11,7 @@ export default function Home({navigation}) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const news = useSelector((state) => state.news);
+  const user = useSelector((state) => state.user.isLoading);
   const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {news.isLoading && <ModalLoading modal={news.isLoading} />}
+      {news.isLoading || user ? <ModalLoading modal={news.isLoading} /> : null}
       <FlatList
         data={news.news.length && news.news}
         renderItem={({item}) => (

@@ -77,49 +77,48 @@ export function DrawerContent(props) {
           </View>
         </View>
         <View style={{marginTop: 20}}>
-          {props.state.routes
-            .filter((data) => data.name !== 'My Profile')
-            .map((route, i) => {
-              const focused = i - 1 === state.index - 2;
-              const {title, drawerLabel, drawerIcon} = descriptors[
-                route.key
-              ].options;
-              return (
-                <DrawerItem
-                  key={route.key}
-                  label={
-                    drawerLabel !== undefined
-                      ? drawerLabel
-                      : title !== undefined
-                      ? title
-                      : route.name
-                  }
-                  icon={drawerIcon}
-                  focused={focused}
-                  activeTintColor={activeTintColor}
-                  inactiveTintColor={inactiveTintColor}
-                  activeBackgroundColor={activeBackgroundColor}
-                  inactiveBackgroundColor={inactiveBackgroundColor}
-                  labelStyle={labelStyle}
-                  style={itemStyle}
-                  to={buildLink(route.name, route.params)}
-                  onPress={() => {
-                    navigation.dispatch({
-                      ...(focused
-                        ? DrawerActions.closeDrawer()
-                        : CommonActions.navigate(route.name)),
-                      target: state.key,
-                    });
-                  }}
-                />
-              );
-            })}
+          {props.state.routes.map((route, i) => {
+            const focused = i === state.index;
+            const {title, drawerLabel, drawerIcon} = descriptors[
+              route.key
+            ].options;
+            return (
+              <DrawerItem
+                key={route.key}
+                label={
+                  drawerLabel !== undefined
+                    ? drawerLabel
+                    : title !== undefined
+                    ? title
+                    : route.name
+                }
+                icon={drawerIcon}
+                focused={focused}
+                activeTintColor={activeTintColor}
+                inactiveTintColor={inactiveTintColor}
+                activeBackgroundColor={activeBackgroundColor}
+                inactiveBackgroundColor={inactiveBackgroundColor}
+                labelStyle={labelStyle}
+                style={itemStyle}
+                to={buildLink(route.name, route.params)}
+                onPress={() => {
+                  navigation.dispatch({
+                    ...(focused
+                      ? DrawerActions.closeDrawer()
+                      : CommonActions.navigate(route.name)),
+                    target: state.key,
+                  });
+                }}
+              />
+            );
+          })}
           <View>
             <DrawerItem
               onPress={logout}
               label="Logout"
               activeTintColor="#2196F3"
               inactiveTintColor="#9b9b9b"
+              labelStyle={{fontWeight: 'bold'}}
               icon={({color, size, focused}) => (
                 <Icon
                   name={focused ? 'exit' : 'ios-exit'}
