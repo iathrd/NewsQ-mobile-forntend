@@ -156,9 +156,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   profileWrapper: {
-    borderBottomColor: '#9b9b9b',
-    borderBottomWidth: 1,
-
+    borderBottomColor: 'rgba(155,155,155,0.4)',
+    borderBottomWidth: 2,
     paddingTop: 40,
     paddingBottom: 30,
   },
