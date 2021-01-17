@@ -41,7 +41,7 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {news.isLoading || user ? <ModalLoading modal={news.isLoading} /> : null}
+      {news.isLoading || user.isLoading ? <ModalLoading modal={true} /> : null}
       <FlatList
         data={news.news.length && news.news}
         renderItem={({item}) => (
