@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {Formik} from 'formik';
 import {Item, Input, Label, Button} from 'native-base';
 import {launchImageLibrary} from 'react-native-image-picker';
+import ModalError from '../components/ModalError';
 
 import {editNews, createNews} from '../helpers/validations';
 import {API_URL} from '@env';
@@ -21,9 +22,10 @@ export default function FormNews({
   const [form, setForm] = useState();
   const create = new FormData();
   const input = new FormData();
+  const [alert, setAlert] = useState(false);
   const [kkkk, setKkkk] = useState({imgs: ''});
   const [coba, setCoba] = useState({uri: '', name: '', type: ''});
-
+  const fileLimit = 1 * 1024 * 1024;
   const openFile = () => {
     const option = {
       mediaType: 'photo',
@@ -34,6 +36,8 @@ export default function FormNews({
         console.log('Cancel...');
       } else if (response.error) {
         console.log(response.error);
+      } else if (response.fileSize >= fileLimit) {
+        setAlert(true);
       } else {
         console.log(response.fileName);
         setImage(response.uri);
@@ -80,8 +84,19 @@ export default function FormNews({
     dispatch(editAction.createNews(token, create));
   };
 
+  const closeModal = () => {
+    setAlert(false);
+  };
+
   return (
     <View style={{backgroundColor: 'transparent'}}>
+      {alert && (
+        <ModalError
+          modal={true}
+          closeModal={closeModal}
+          message="Photo to large"
+        />
+      )}
       <Formik
         initialValues={{
           content: data.content || '',

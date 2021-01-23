@@ -19,7 +19,9 @@ export default function MyProfile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.auth.token);
+  const [alert, setAlert] = useState(false);
   const [modal, setModal] = useState(false);
+  const fileLimit = 1 * 1024 * 1024;
 
   useEffect(() => {
     if (user.isSuccess) {
@@ -36,17 +38,41 @@ export default function MyProfile() {
   };
   const openFile = () => {
     setModal(false);
-    const option = {
-      mediaType: 'photo',
-      includeBase64: true,
-    };
-    launchImageLibrary(option, (response) => {
+    launchImageLibrary(
+      {mediaType: 'photo', includeBase64: true},
+      (response) => {
+        if (response.didCancel) {
+          console.log('Cancel...');
+        } else if (response.error) {
+          console.log(response.error);
+        } else if (response.fileSize >= fileLimit) {
+          setAlert(true);
+        } else {
+          const img = new FormData();
+          img.append('avatar', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          dispatch(userAction.updateAvatar(token, img));
+        }
+      },
+    );
+  };
+
+  const onCLose = () => {
+    dispatch(userAction.clearMessage());
+  };
+
+  const closeAlert = () => {
+    setAlert(false);
+  };
+
+  const openCamera = () => {
+    launchCamera({saveToPhotos: true}, (response) => {
       if (response.didCancel) {
-        console.log('Cancel...');
-      } else if (response.error) {
-        console.log(response.error);
+        console.log('did cancel');
       } else {
-        // setDispayImage(response.uri);
         const img = new FormData();
         img.append('avatar', {
           uri: response.uri,
@@ -54,30 +80,6 @@ export default function MyProfile() {
           type: response.type,
         });
         dispatch(userAction.updateAvatar(token, img));
-      }
-    });
-  };
-
-  const onCLose = () => {
-    dispatch(userAction.clearMessage());
-  };
-
-  const openCamera = async () => {
-    const option = {
-      mediaType: 'photo',
-      saveToPhotos: true,
-      maxWidth: 500,
-      maxHeight: 500,
-      quality: 1,
-      includeBase64: true,
-    };
-    await launchCamera(option, (response) => {
-      if (response.didCancel) {
-        console.log('Cancel...');
-      } else if (response.error) {
-        console.log(response.error);
-      } else {
-        console.log(response.fileName);
       }
     });
   };
@@ -111,6 +113,13 @@ export default function MyProfile() {
           message={user.alertMsg}
         />
       )}
+      {alert && (
+        <ModalError
+          modal={alert}
+          closeModal={closeAlert}
+          message="Photo to large"
+        />
+      )}
       <View>
         <Modal
           onBackButtonPress={closeModal}
@@ -128,7 +137,7 @@ export default function MyProfile() {
                   activeOpacity={0.6}
                   underlayColor="#DDDDDD"
                   style={styles.touchModal}
-                  onPress={openCamera}>
+                  onPress={() => openCamera()}>
                   <Text style={styles.textModal}>Take photo</Text>
                 </TouchableHighlight>
               </View>
