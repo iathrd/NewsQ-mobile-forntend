@@ -19,6 +19,8 @@ import {
 } from './StackNavigation';
 import Login from './Login';
 import Register from './Register';
+import InputEmail from './InputEmail';
+import ChangePassword from './ChangePassword';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -38,6 +40,16 @@ export default function Main() {
             options={{headerShown: false}}
             name="Register"
             component={Register}
+          />
+          <Stack.Screen
+            options={{title: null}}
+            name="InputEmail"
+            component={InputEmail}
+          />
+          <Stack.Screen
+            options={{title: null}}
+            name="ChangePassword"
+            component={ChangePassword}
           />
         </Stack.Navigator>
       ) : (

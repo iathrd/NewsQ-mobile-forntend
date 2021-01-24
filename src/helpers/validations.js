@@ -46,3 +46,16 @@ export const register = Yup.object().shape({
     .min(8, 'Password at least 8 karacters')
     .required('Password is required'),
 });
+
+export const emailValid = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Email is required'),
+});
+
+export const changePass = Yup.object().shape({
+  newPassword: Yup.string()
+    .min(8, 'New Password at least 8 character')
+    .required('New password is required'),
+  repeatPassword: Yup.string()
+    .oneOf([Yup.ref('newPassword'), null], 'Password must match')
+    .required('Repeat password is Required'),
+});

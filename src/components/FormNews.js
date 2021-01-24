@@ -83,7 +83,7 @@ export default function FormNews({
     create.append('content', values.content);
     dispatch(editAction.createNews(token, create));
   };
-
+0
   const closeModal = () => {
     setAlert(false);
   };

@@ -2,29 +2,29 @@ const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  error: false,
   alertMsg: '',
-  user: {},
+  category: [],
+  news: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_USER_PENDING': {
+    case 'LIST_CATEGORY_PENDING': {
       return {
         ...state,
         isLoading: true,
         isError: false,
       };
     }
-    case 'GET_USER_FULFILLED': {
+    case 'LIST_CATEGORY_FULFILLED': {
       return {
         ...state,
         isLoading: false,
         isError: false,
-        user: action.payload.data.data,
+        category: action.payload.data.data,
       };
     }
-    case 'GET_USER_REJECTED': {
+    case 'LIST_CATEGORY_REJECTED': {
       return {
         ...state,
         isError: true,
@@ -33,29 +33,28 @@ export default (state = initialState, action) => {
       };
     }
 
-    case 'UPDATE_USER_PENDING': {
+    case 'GET_CATEGORY_NEWS_PENDING': {
       return {
         ...state,
         isLoading: true,
         isError: false,
-        isSuccess: false,
         alertMsg: 'Login ...',
       };
     }
-    case 'UPDATE_USER_FULFILLED': {
+    case 'GET_CATEGORY_NEWS_FULFILLED': {
       return {
         ...state,
         isLoading: false,
         isError: false,
-        isSuccess: true,
+        news: action.payload.data.data,
         alertMsg: 'Update user succesfully!',
       };
     }
-    case 'UPDATE_USER_REJECTED': {
+    case 'GET_CATEGORY_NEWS_REJECTED': {
       return {
         ...state,
         isError: true,
-        isSuccess: false,
+
         isLoading: false,
         alertMsg: action.payload.response.data.message,
       };
@@ -89,40 +88,11 @@ export default (state = initialState, action) => {
       };
     }
 
-    case 'CHANGE_PASSWORD_PENDING': {
-      return {
-        ...state,
-        isLoading: true,
-        error: false,
-        isSuccess: false,
-        alertMsg: 'Login ...',
-      };
-    }
-    case 'CHANGE_PASSWORD_FULFILLED': {
-      return {
-        ...state,
-        isLoading: false,
-        error: false,
-        isSuccess: true,
-        alertMsg: 'Password succesfuly change!',
-      };
-    }
-    case 'CHANGE_PASSWORD_REJECTED': {
-      return {
-        ...state,
-        error: true,
-        isSuccess: false,
-        isLoading: false,
-        alertMsg: 'email is not registered',
-      };
-    }
-
     case 'CLEAR_MESSAGE': {
       return {
         ...state,
         isSuccess: false,
         isError: false,
-        error: false,
         alertMsg: '',
       };
     }

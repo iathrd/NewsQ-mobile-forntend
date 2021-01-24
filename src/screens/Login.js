@@ -69,13 +69,13 @@ export default function Login({navigation}) {
               </View>
               <View style={styles.registerWrapper}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Register')}
+                  onPress={() => navigation.navigate('InputEmail')}
                   style={styles.registerWrapper2}>
-                  <View>
+                  {/* <View>
                     <Icon name="arrow-right-alt" size={35} />
-                  </View>
+                  </View> */}
                   <View>
-                    <Text>Register</Text>
+                    <Text>Forgot password ?</Text>
                   </View>
                 </TouchableOpacity>
               </View>

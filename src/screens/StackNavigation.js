@@ -18,6 +18,8 @@ import EditNews from './EditNews';
 import CreateNews from './CreateNews';
 import NewsDetail from './NewsDetails';
 import SearchNews from './SearchNews';
+import Category from './Category';
+import CategoryNews from './CategoryNews';
 
 export const HomeStack = () => {
   const dispatch = useDispatch();
@@ -82,13 +84,29 @@ export const HomeStack = () => {
                 </Item>
               </View>
               <View style={{marginLeft: 16, marginRight: 16}}>
-                <Icon name="sort" size={27} />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Category')}>
+                  <Icon name="sort" size={27} />
+                </TouchableOpacity>
               </View>
             </View>
           ),
         })}
         name="Search"
         component={SearchNews}
+      />
+      <Stack.Screen
+        options={{title: null}}
+        name="Category"
+        component={Category}
+      />
+      <Stack.Screen
+        options={({route}) => ({
+          title: route.params.name,
+          headerTitleAlign: 'center',
+        })}
+        name="CategoryNews"
+        component={CategoryNews}
       />
     </Stack.Navigator>
   );
