@@ -92,6 +92,10 @@ export default function Login({navigation}) {
                     <Text style={styles.loginText}>Login</Text>
                   )}
                 </Button>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Register')
+                  }></TouchableOpacity>
               </View>
             </>
           )}

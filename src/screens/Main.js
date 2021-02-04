@@ -21,6 +21,7 @@ import Login from './Login';
 import Register from './Register';
 import InputEmail from './InputEmail';
 import ChangePassword from './ChangePassword';
+import LandingPage from './LandingPage'
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -31,6 +32,12 @@ export default function Main() {
     <NavigationContainer>
       {!token.length ? (
         <Stack.Navigator>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="LandingPage"
+            component={LandingPage}
+          />
+
           <Stack.Screen
             options={{headerShown: false}}
             name="Login"
